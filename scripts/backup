@@ -1,4 +1,5 @@
 #!/bin/bash
+#### App file generated with YoloGen, the YunoHost app generator, version .
 
 #=================================================
 # GENERIC START
@@ -15,65 +16,23 @@ source /usr/share/yunohost/helpers
 #=================================================
 ynh_print_info --message="Declaring files to be backed up..."
 
-### N.B. : the following 'ynh_backup' calls are only a *declaration* of what needs
-### to be backuped and not an actual copy of any file. The actual backup that
-### creates and fills the archive with the files happens in the core after this
-### script is called. Hence ynh_backups calls take basically 0 seconds to run.
-
-#=================================================
-# BACKUP THE APP MAIN DIR
-#=================================================
-
 ynh_backup --src_path="$install_dir"
 
-#=================================================
-# BACKUP THE DATA DIR
-#=================================================
-
-### Only relevant if there is a "data_dir" resource for this app
 ynh_backup --src_path="$data_dir" --is_big
 
-#=================================================
-# SYSTEM CONFIGURATION
-#=================================================
-
-# Backup the PHP-FPM configuration
-ynh_backup --src_path="/etc/php/$phpversion/fpm/pool.d/$app.conf"
-
-# Backup the nginx configuration
 ynh_backup --src_path="/etc/nginx/conf.d/$domain.d/$app.conf"
 
-# Backup the systemd service unit
-ynh_backup --src_path="/etc/systemd/system/$app.service"
-
-# Backup the logrotate configuration
 ynh_backup --src_path="/etc/logrotate.d/$app"
 
-# Backup the Fail2Ban config
-ynh_backup --src_path="/etc/fail2ban/jail.d/$app.conf"
-ynh_backup --src_path="/etc/fail2ban/filter.d/$app.conf"
+ynh_backup --src_path="/etc/systemd/system/$app.service"
 
 #=================================================
-# BACKUP VARIOUS FILES
+# BACKUP THE DATABASE
 #=================================================
-
-ynh_backup --src_path="/etc/cron.d/$app"
-
-ynh_backup --src_path="/etc/$app/"
-
-### For apps with huge logs, you might want to pass --is_big,
-### and in restore script, mkdir and pass --not_mandatory to ynh_restore_file.
-ynh_backup --src_path="/var/log/$app/"
-
-#=================================================
-# BACKUP THE MYSQL DATABASE
-#=================================================
-ynh_print_info --message="Backing up the MySQL database..."
+ynh_print_info --message="Backing up the postgresql database..."
 
 ### (However, things like MySQL dumps *do* take some time to run, though the
 ### copy of the generated dump to the archive still happens later)
-
-ynh_mysql_dump_db --database="$db_name" > db.sql
 
 #=================================================
 # END OF SCRIPT
