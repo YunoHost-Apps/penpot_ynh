@@ -12,11 +12,26 @@ source /usr/share/yunohost/helpers
 # INSTALL DEPENDENCIES
 #=================================================
 
-ynh_script_progression --message="Installing NodeJS..." --weight=10
+ynh_script_progression --message="Installing dependencies..." --weight=10
 
 # Install Nodejs
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 ynh_use_nodejs
+
+ynh_setup_source --dest_dir="$install_dir/jdk" --source_id="jdk"
+export JAVA_HOME=$install_dir/jdk
+
+tmp_dir=$(mktemp -d)
+
+pushd $tmp_dir
+    curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
+    chmod +x linux-install.sh
+    ynh_exec_as $app ./linux-install.sh -p $install_dir/clojure
+popd
+
+ynh_secure_remove --file=$tmp_dir
+
+export PATH=$install_dir/clojure/bin:$PATH
 
 #=================================================
 # APP "BUILD" (DEPLOYING SOURCES, VENV, COMPILING ETC)
@@ -25,65 +40,79 @@ ynh_use_nodejs
 #=================================================
 ynh_script_progression --message="Setting up source files..."
 
-ynh_setup_source --dest_dir="$install_dir"
+ynh_setup_source --dest_dir="$install_dir/build"
 
 chown -R $app:www-data "$install_dir"
-
-#=================================================
-# SYSTEM CONFIGURATION
-#=================================================
-ynh_script_progression --message="Adding system configurations related to $app..."
-
-# Create a dedicated NGINX config using the conf/nginx.conf template
-ynh_add_nginx_config
-
-# Create a dedicated systemd config
-ynh_add_systemd_config
-
-yunohost service add $app --log="/var/log/$app/$app.log"
-
-# Use logrotate to manage application logfile(s)
-ynh_use_logrotate
-
-#=================================================
-# APP INITIAL CONFIGURATION
-#=================================================
-# ADD A CONFIGURATION
-#=================================================
-ynh_script_progression --message="Adding app's configuration file..."
-
-ynh_add_config --template="" --destination="$install_dir/"
-
-# FIXME: this should be handled by the core in the future
-# You may need to use chmod 600 instead of 400,
-# for example if the app is expected to be able to modify its own config
-chmod 400 "$install_dir/"
-chown $app:$app "$install_dir/"
 
 #=================================================
 # INSTALL APP
 #=================================================
 ynh_script_progression --message="Installing app..." --weight=5
 
-pushd $install_dir
-ynh_exec_as $app $ynh_node_load_PATH yarn install --production --pure-lockfile
-ynh_exec_as $app $ynh_node_load_PATH yarn build
+pushd $install_dir/build/frontend
+    ynh_exec_as $app $ynh_node_load_PATH yarn install --production --pure-lockfile
+    
+    ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
+    ynh_exec_as $app $ynh_node_load_PATH npm exec gulp build
+    ynh_exec_as $app $ynh_node_load_PATH npm exec gulp dist:clean
+    ynh_exec_as $app $ynh_node_load_PATH npm exec gulp dist:copy 
+
+    sed -i -re "s/\%version\%/$(ynh_app_upstream_version)/g" ./target/dist/index.html;
+    sed -i -re "s/\%buildDate\%/$(date -R)/g" ./target/dist/index.html;
+popd
+
+pushd $install_dir/build/backend
+    mkdir -p target/classes;
+    mkdir -p target/dist;
+    echo "$(ynh_app_upstream_version)" > target/classes/version.txt;
+
+    ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -T:build jar;
+    mv target/penpot.jar target/dist/penpot.jar
+    cp resources/log4j2.xml target/dist/log4j2.xml
+    cp scripts/run.template.sh target/dist/run.sh;
+    chmod +x target/dist/run.sh;
+
+    # Prefetch templates
+    mkdir builtin-templates;
+    bb ./scripts/prefetch-templates.clj resources/app/onboarding.edn builtin-templates/
+    cp -r builtin-templates target/dist/
 popd
 
 #=================================================
-# FINALIZE APP INSTALL WITH CURL
+# SYSTEM CONFIGURATION
 #=================================================
+#ynh_script_progression --message="Adding system configurations related to $app..."
 
-# REMOVEME? ynh_script_progression --message="Finalizing installation..."
-# REMOVEME? ynh_local_curl "/INSTALL_PATH" "key1=value1" "key2=value2" "key3=value3"
+# Create a dedicated NGINX config using the conf/nginx.conf template
+#ynh_add_nginx_config
+
+# Create a dedicated systemd config
+#ynh_add_systemd_config
+
+#yunohost service add $app --log="/var/log/$app/$app.log"
+
+# Use logrotate to manage application logfile(s)
+#ynh_use_logrotate
+
+#=================================================
+# APP INITIAL CONFIGURATION
+#=================================================
+# ADD A CONFIGURATION
+#=================================================
+# ynh_script_progression --message="Adding app's configuration file..."
+
+# ynh_add_config --template="" --destination="$install_dir/"
+
+# chmod 400 "$install_dir/"
+# chown $app:$app "$install_dir/"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting app's systemd service..."
+# ynh_script_progression --message="Starting app's systemd service..."
 
 # Start a systemd service
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+# ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
 
 #=================================================
 # END OF SCRIPT

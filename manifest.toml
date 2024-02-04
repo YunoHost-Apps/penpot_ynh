@@ -3,8 +3,8 @@ packaging_format = 2
 id = "penpot"
 name = "Penpot"
 
-description.en = "Penpot - The Open-Source design &amp; prototyping platform "
-description.fr = "Penpot - The Open-Source design &amp; prototyping platform "
+description.en = "Penpot - The Open-Source design and prototyping platform"
+description.fr = "Penpot - La plateforme de conception et de prototypage open-source"
 
 version = "1.19.2~ynh1"
 
@@ -20,10 +20,10 @@ code = "https://github.com/penpot/penpot"
 
 [integration]
 yunohost = '>= 11.2'
-architectures = "amd64" # TODO : handle the "all" option (no ["all"])
-multi_instance = true ldap = "false" # TODO : fixme, use actual booleans + handle the "not_relevant" value
-sso = "true"
-# FIXME: replace with an **estimate** minimum disk and RAM requirements. e.g. 20M, 400M, 1G... You may have have a look at CI results
+architectures = ["amd64", "arm64"]
+multi_instance = true 
+ldap = false
+sso = false
 disk = "50M"
 ram.build = "50M"
 ram.runtime = "50M"
@@ -35,7 +35,7 @@ ram.runtime = "50M"
 
     [install.path]
     type = "path"
-    default = "/example"
+    default = "/penpot"
 
     [install.init_main_permission]
     type = "group"
@@ -46,18 +46,15 @@ ram.runtime = "50M"
     [resources.sources]
 
         [resources.sources.main]
-        # This will pre-fetch the asset which can then be deployed during the install/upgrade scripts with :
-        #    ynh_setup_source --dest_dir="$install_dir"
-        # You can also define other assets than "main" and add --source_id="foobar" in the previous command
         url = "https://github.com/penpot/penpot/archive/refs/tags/1.19.2.tar.gz"
         sha256 = "14de5b71f13f0fd542234f16fa5a307fbee7088bdfa343a53ff923b3f95f4edb"
+        autoupdate.strategy = "latest_github_release"
 
-        # These infos are used by https://github.com/YunoHost/apps/blob/master/tools/autoupdate_app_sources/autoupdate_app_sources.py
-        # to auto-update the previous asset urls and sha256sum + manifest version
-        # assuming the upstream's code repo is on github and relies on tags or releases
-        # See the 'sources' resource documentation for more details
-
-        autoupdate.strategy = "latest_github_tag"
+        [resources.sources.jdk]
+        amd64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.2%2B13/OpenJDK21U-jdk_x64_linux_hotspot_21.0.2_13.tar.gz"
+        amd64.sha256 = "454bebb2c9fe48d981341461ffb6bf1017c7b7c6e15c6b0c29b959194ba3aaa5"
+        arm64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.2%2B13/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.2_13.tar.gz"
+        arm64.sha256 = "3ce6a2b357e2ef45fd6b53d6587aa05bfec7771e7fb982f2c964f6b771b7526a"
 
     [resources.system_user]
 
@@ -69,6 +66,12 @@ ram.runtime = "50M"
     main.url = "/"
 
     [resources.ports]
+    
     [resources.apt]
-    packages = "postgresql redis  postgresql "[resources.database]
+    packages = "postgresql redis"
+    extras.yarn.repo = "deb https://dl.yarnpkg.com/debian/ stable main"
+    extras.yarn.key = "https://dl.yarnpkg.com/debian/pubkey.gpg"
+    extras.yarn.packages = "yarn"
+
+    [resources.database]
     type = "postgresql"
