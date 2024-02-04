@@ -27,7 +27,7 @@ tmp_dir=$(mktemp -d)
 pushd $tmp_dir
     curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
     chmod +x linux-install.sh
-    ./linux-install.sh -p $install_dir/clojure
+    ynh_exec_warn_less ./linux-install.sh -p $install_dir/clojure
 popd
 
 ynh_secure_remove --file=$tmp_dir
@@ -51,9 +51,10 @@ chown -R $app:$app "$install_dir"
 ynh_script_progression --message="Installing app..." --weight=5
 
 pushd $install_dir/build/frontend
-    ynh_exec_as $app env $ynh_node_load_PATH yarn install --production --pure-lockfile
+    ynh_exec_as $app env $ynh_node_load_PATH yarn install --pure-lockfile
     
-    ynh_exec_as $app env $ynh_node_load_PATH PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
+    # ynh_exec_warn_less 
+    ynh_exec_as $app env $ynh_node_load_PATH JAVA_HOME=$JAVA_HOME clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
     ynh_exec_as $app $ynh_node_load_PATH npm exec gulp build
     ynh_exec_as $app $ynh_node_load_PATH npm exec gulp dist:clean
     ynh_exec_as $app $ynh_node_load_PATH npm exec gulp dist:copy 
