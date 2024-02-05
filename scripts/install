@@ -8,6 +8,12 @@
 source _common.sh
 source /usr/share/yunohost/helpers
 
+redis_db=$(ynh_redis_get_free_db)
+secret_key=$(ynh_string_random --length=40)
+
+ynh_app_setting_set --app=$app --key=redis_db --value=$redis_db
+ynh_app_setting_set --app=$app --key=secret_key --value=$secret_key
+
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
@@ -48,7 +54,7 @@ chown -R $app:$app "$install_dir"
 #=================================================
 # INSTALL APP
 #=================================================
-ynh_script_progression --message="Installing app..." --weight=5
+ynh_script_progression --message="Building frontend..." --weight=5
 
 pushd $install_dir/build/frontend
     ynh_exec_as $app env $ynh_node_load_PATH yarn install --pure-lockfile
@@ -63,16 +69,22 @@ pushd $install_dir/build/frontend
     sed -i -re "s/\%buildDate\%/$(date -R)/g" ./target/dist/index.html;
 popd
 
+mkdir -p $install_dir/frontend
+mv build/frontend/target/dist/* $install_dir/frontend
+chown -R $app:www-data $install_dir/frontend
+chmod -R 755 $install_dir/frontend
+
+ynh_script_progression --message="Building backend..." --weight=5
+
 pushd $install_dir/build/backend
     mkdir -p target/classes;
     mkdir -p target/dist;
     echo "$(ynh_app_upstream_version)" > target/classes/version.txt;
+    chown -R $app:$app target
 
     ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -T:build jar;
     mv target/penpot.jar target/dist/penpot.jar
     cp resources/log4j2.xml target/dist/log4j2.xml
-    cp scripts/run.template.sh target/dist/run.sh;
-    chmod +x target/dist/run.sh;
 
     # Prefetch templates
     mkdir builtin-templates;
@@ -80,41 +92,77 @@ pushd $install_dir/build/backend
     cp -r builtin-templates target/dist/
 popd
 
+mkdir -p $install_dir/backend
+mv build/backend/target/dist/* $install_dir/backend
+chown -R $app:$app $install_dir/backend
+chmod -R 700 $install_dir/backend
+
+ynh_script_progression --message="Building exporter..." --weight=5
+
+pushd $install_dir/build/exporter
+    ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main;;
+    cp yarn.lock target/;
+    cp package.json target/;
+    
+    sed -i -re "s/\%version\%/$(ynh_app_upstream_version)/g" ./target/app.js;
+
+
+popd
+
+mkdir -p $install_dir/exporter
+mv build/exporter/target/* $install_dir/exporter
+chown -R $app:$app $install_dir/exporter
+chmod -R 700 $install_dir/exporter
+pushd $install_dir/exporter
+    ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn install --pure-lockfile
+    ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn --network-timeout 1000000 run playwright install chromium
+popd
+
 #=================================================
 # SYSTEM CONFIGURATION
 #=================================================
-#ynh_script_progression --message="Adding system configurations related to $app..."
+ynh_script_progression --message="Adding system configurations related to $app..."
 
 # Create a dedicated NGINX config using the conf/nginx.conf template
-#ynh_add_nginx_config
+ynh_add_nginx_config
 
 # Create a dedicated systemd config
-#ynh_add_systemd_config
+ynh_add_systemd_config --template="backend.service" --service="$app-backend"
+yunohost service add $app-backend --log="/var/log/$app/$app-backend.log"
 
-#yunohost service add $app --log="/var/log/$app/$app.log"
+ynh_add_systemd_config --template="exporter.service" --service="$app-exporter"
+yunohost service add $app-exporter --log="/var/log/$app/$app-exporter.log"
 
 # Use logrotate to manage application logfile(s)
-#ynh_use_logrotate
+mkdir -p /var/log/$app
+touch /var/log/$app/$app-backend.log
+touch /var/log/$app/$app-exporter.log
+chown -R $app: /var/log/$app
+
+ynh_use_logrotate --logfile="/var/log/$app/$app-backend.log"
+ynh_use_logrotate --logfile="/var/log/$app/$app-exporter.log"
 
 #=================================================
 # APP INITIAL CONFIGURATION
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
-# ynh_script_progression --message="Adding app's configuration file..."
+ynh_script_progression --message="Adding app's configuration file..."
 
-# ynh_add_config --template="" --destination="$install_dir/"
+ynh_add_config --template="config.js" --destination="$install_dir/frontend/js/config.js"
 
-# chmod 400 "$install_dir/"
-# chown $app:$app "$install_dir/"
+#chmod 400 "$install_dir/frontend/js/config.js"
+#chown $app:$app "$install_dir/"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-# ynh_script_progression --message="Starting app's systemd service..."
+ynh_script_progression --message="Starting a systemd service..." --weight=1
 
 # Start a systemd service
-# ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+#ynh_systemd_action --service_name=$app-api --action="start" --log_path="/var/log/$app/$app-api.log" --line_match="HTTP Server is listening on"
+
+#ynh_systemd_action --service_name=$app-proxy --action="start" --log_path="/var/log/$app/$app-proxy.log" --line_match="Running server!"
 
 #=================================================
 # END OF SCRIPT

@@ -1,15 +1,22 @@
 [Unit]
-Description=Service for Penpot (__APP__)
+Description=Penpot exporter service (__APP__)
 After=network.target
+After=postgresql.service
 
 [Service]
 Type=simple
 User=__APP__
 Group=__APP__
 
+WorkingDirectory=__INSTALL_DIR__/exporter
 WorkingDirectory=__INSTALL_DIR__/
-ExecStart=
-StandardOutput=append:/var/log/__APP__/__APP__.log
+ExecStart=__YNH_NODE__ app.js --http-server-port=__PORT__
+Restart=always
+Environment=__YNH_NODE_LOAD_PATH__
+Environment=NODE_ENV=production
+Environment=PENPOT_PUBLIC_URI=https://__DOMAIN____PATH__
+Environment=PENPOT_REDIS_URI=redis://127.0.0.1:6379:__REDIS_DB__
+StandardOutput=append:/var/log/__APP__/__APP__-exporter.log 
 StandardError=inherit
 Restart=on-failure
 RestartSec=10
