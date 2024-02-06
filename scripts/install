@@ -70,7 +70,7 @@ pushd $install_dir/build/frontend
 popd
 
 mkdir -p $install_dir/frontend
-mv build/frontend/target/dist/* $install_dir/frontend
+mv $install_dir/build/frontend/target/dist/* $install_dir/frontend
 chown -R $app:www-data $install_dir/frontend
 chmod -R 755 $install_dir/frontend
 
@@ -93,7 +93,7 @@ pushd $install_dir/build/backend
 popd
 
 mkdir -p $install_dir/backend
-mv build/backend/target/dist/* $install_dir/backend
+mv $install_dir/build/backend/target/dist/* $install_dir/backend
 chown -R $app:$app $install_dir/backend
 chmod -R 700 $install_dir/backend
 
@@ -105,12 +105,10 @@ pushd $install_dir/build/exporter
     cp package.json target/;
     
     sed -i -re "s/\%version\%/$(ynh_app_upstream_version)/g" ./target/app.js;
-
-
 popd
 
 mkdir -p $install_dir/exporter
-mv build/exporter/target/* $install_dir/exporter
+mv $install_dir/build/exporter/target/* $install_dir/exporter
 chown -R $app:$app $install_dir/exporter
 chmod -R 700 $install_dir/exporter
 pushd $install_dir/exporter
