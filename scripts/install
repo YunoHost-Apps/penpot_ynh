@@ -38,7 +38,7 @@ popd
 
 ynh_secure_remove --file=$tmp_dir
 
-ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka" --in_subdir=false
+ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka"
 
 export PATH=$install_dir/clojure/bin:$install_dir/babashka:$PATH
 
