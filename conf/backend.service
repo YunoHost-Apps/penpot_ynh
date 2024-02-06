@@ -8,37 +8,10 @@ Type=simple
 User=__APP__
 Group=__APP__
 
-Environment=PENPOT_FLAGS="enable-login-with-ldap enable-smtp"
-Environment=PENPOT_LDAP_HOST=localhost
-Environment=PENPOT_LDAP_PORT=389
-Environment=PENPOT_LDAP_SSL=false
-Environment=PENPOT_LDAP_STARTTLS=false
-Environment=PENPOT_LDAP_BASE_DN=ou=users,dc=yunohost,dc=org
-Environment=PENPOT_LDAP_BIND_DN=cn=admin,dc=planetexpress,dc=com
-Environment=PENPOT_LDAP_USER_QUERY=(|(uid=:username)(mail=:username))
-Environment=PENPOT_LDAP_ATTRS_USERNAME=uid
-Environment=PENPOT_LDAP_ATTRS_EMAIL=mail
-Environment=PENPOT_LDAP_ATTRS_FULLNAME=cn
-Environment=PENPOT_DATABASE_USERNAME=__APP__
-Environment=PENPOT_DATABASE_PASSWORD=__DB_PWD__
-Environment=PENPOT_DATABASE_URI=postgresql://127.0.0.1/__DB_NAME__
-Environment=PENPOT_SMTP_DEFAULT_REPLY_TO=Penpot <__APP__@__DOMAIN__>
-Environment=PENPOT_SMTP_DEFAULT_FROM=Penpot <__APP__@__DOMAIN__>
-Environment=PENPOT_SMTP_HOST=localhost
-Environment=PENPOT_SMTP_PORT=587
-Environment=PENPOT_SMTP_USERNAME=__MAIL_USER__
-Environment=PENPOT_SMTP_PASSWORD=__MAIL_PWD__
-Environment=PENPOT_SMTP_TLS=true
-Environment=PENPOT_ASSETS_STORAGE_BACKEND=assets-fs
-Environment=PENPOT_STORAGE_ASSETS_FS_DIRECTORY=__DATA_DIR__/assets
-Environment=PENPOT_SECRET_KEY=__SECRET_KEY__
-Environment=PENPOT_PUBLIC_URI=https://__DOMAIN____PATH__
-Environment=PENPOT_REDIS_URI=redis://127.0.0.1:6379:__REDIS_DB__
-Environment=PENPOT_TELEMETRY_ENABLED=false
 Environment=JAVA_HOME="__INSTALL_DIR__/jdk"
 
 WorkingDirectory=__INSTALL_DIR__/backend
-ExecStart=__INSTALL_DIR__/jdk/bin/java -jar __INSTALL_DIR__/backend/penpot.jar -m app.main -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager -Dlog4j2.configurationFile=log4j2.xml -XX:-OmitStackTraceInFastThrow --enable-preview
+ExecStart=__INSTALL_DIR__/backend/run.sh
 StandardOutput=append:/var/log/__APP__/__APP__-backend.log
 StandardError=inherit
 Restart=on-failure

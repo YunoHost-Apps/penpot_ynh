@@ -1,0 +1,27 @@
+export PENPOT_FLAGS="enable-login-with-ldap enable-smtp"
+export PENPOT_LDAP_HOST=localhost
+export PENPOT_LDAP_PORT=389
+export PENPOT_LDAP_SSL=false
+export PENPOT_LDAP_STARTTLS=false
+export PENPOT_LDAP_BASE_DN=ou=users,dc=yunohost,dc=org
+export PENPOT_LDAP_BIND_DN=cn=admin,dc=planetexpress,dc=com
+export PENPOT_LDAP_USER_QUERY=(|(uid=:username)(mail=:username))
+export PENPOT_LDAP_ATTRS_USERNAME=uid
+export PENPOT_LDAP_ATTRS_EMAIL=mail
+export PENPOT_LDAP_ATTRS_FULLNAME=cn
+export PENPOT_DATABASE_USERNAME=__APP__
+export PENPOT_DATABASE_PASSWORD=__DB_PWD__
+export PENPOT_DATABASE_URI=postgresql://127.0.0.1/__DB_NAME__
+export PENPOT_SMTP_DEFAULT_REPLY_TO=Penpot <__APP__@__DOMAIN__>
+export PENPOT_SMTP_DEFAULT_FROM=Penpot <__APP__@__DOMAIN__>
+export PENPOT_SMTP_HOST=localhost
+export PENPOT_SMTP_PORT=587
+export PENPOT_SMTP_USERNAME=__MAIL_USER__
+export PENPOT_SMTP_PASSWORD=__MAIL_PWD__
+export PENPOT_SMTP_TLS=true
+export PENPOT_ASSETS_STORAGE_BACKEND=assets-fs
+export PENPOT_STORAGE_ASSETS_FS_DIRECTORY=__DATA_DIR__/assets
+export PENPOT_SECRET_KEY=__SECRET_KEY__
+export PENPOT_PUBLIC_URI=https://__DOMAIN____PATH__
+export PENPOT_REDIS_URI=redis://127.0.0.1:6379:__REDIS_DB__
+export PENPOT_TELEMETRY_ENABLED=false

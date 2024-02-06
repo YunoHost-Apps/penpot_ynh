@@ -87,6 +87,8 @@ pushd $install_dir/build/backend
     ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -T:build jar;
     mv target/penpot.jar target/dist/penpot.jar
     cp resources/log4j2.xml target/dist/log4j2.xml
+    cp scripts/run.template.sh target/dist/run.sh
+    chmod +x target/dist/run.sh;
 
     # Prefetch templates
     mkdir builtin-templates;
@@ -102,11 +104,11 @@ chmod -R 700 $install_dir/backend
 ynh_script_progression --message="Building exporter..." --weight=5
 
 pushd $install_dir/build/exporter
-    ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main;;
-    cp yarn.lock target/;
-    cp package.json target/;
+    ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main
+    cp yarn.lock target/
+    cp package.json target/
     
-    sed -i -re "s/\%version\%/$(ynh_app_upstream_version)/g" ./target/app.js;
+    sed -i -re "s/\%version\%/$(ynh_app_upstream_version)/g" ./target/app.js
 popd
 
 mkdir -p $install_dir/exporter
@@ -151,8 +153,9 @@ ynh_script_progression --message="Adding app's configuration file..."
 
 ynh_add_config --template="config.js" --destination="$install_dir/frontend/js/config.js"
 
-#chmod 400 "$install_dir/frontend/js/config.js"
-#chown $app:$app "$install_dir/"
+ynh_add_config --template="environ" --destination="$install_dir/backend/environ"
+chmod 400 "$install_dir/backend/environ"
+chown $app:$app "$install_dir/backend/environ"
 
 #=================================================
 # START SYSTEMD SERVICE
