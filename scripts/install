@@ -38,7 +38,9 @@ popd
 
 ynh_secure_remove --file=$tmp_dir
 
-export PATH=$install_dir/clojure/bin:$PATH
+ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka" --in_subdir=false
+
+export PATH=$install_dir/clojure/bin:$install_dir/babashka:$PATH
 
 #=================================================
 # APP "BUILD" (DEPLOYING SOURCES, VENV, COMPILING ETC)
@@ -57,10 +59,10 @@ chown -R $app:$app "$install_dir"
 ynh_script_progression --message="Building frontend..." --weight=5
 
 pushd $install_dir/build/frontend
-    ynh_exec_as $app env $ynh_node_load_PATH yarn install --pure-lockfile
+    ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install --pure-lockfile
     
     # ynh_exec_warn_less 
-    ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
+    ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
     ynh_exec_as $app $ynh_node_load_PATH npm exec gulp build
     ynh_exec_as $app $ynh_node_load_PATH npm exec gulp dist:clean
     ynh_exec_as $app $ynh_node_load_PATH npm exec gulp dist:copy 
@@ -82,7 +84,7 @@ pushd $install_dir/build/backend
     echo "$(ynh_app_upstream_version)" > target/classes/version.txt;
     chown -R $app:$app target
 
-    ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -T:build jar;
+    ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -T:build jar;
     mv target/penpot.jar target/dist/penpot.jar
     cp resources/log4j2.xml target/dist/log4j2.xml
 
@@ -100,7 +102,7 @@ chmod -R 700 $install_dir/backend
 ynh_script_progression --message="Building exporter..." --weight=5
 
 pushd $install_dir/build/exporter
-    ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main;;
+    ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main;;
     cp yarn.lock target/;
     cp package.json target/;
     
