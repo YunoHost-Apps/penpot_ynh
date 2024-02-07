@@ -60,12 +60,14 @@ ram.runtime = "50M"
         in_subdir = false
 
     [resources.system_user]
+    allow_email = true
 
     [resources.install_dir]
 
     [resources.data_dir]
     subdirs = ["assets"]
     group = "www-data:rx"
+
     [resources.permissions]
     main.url = "/"
 
