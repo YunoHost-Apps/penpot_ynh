@@ -163,7 +163,7 @@ chown $app:$app "$install_dir/backend/environ"
 ynh_script_progression --message="Starting a systemd service..." --weight=1
 
 # Start a systemd service
-#ynh_systemd_action --service_name=$app-api --action="start" --log_path="/var/log/$app/$app-api.log" --line_match="HTTP Server is listening on"
+ynh_systemd_action --service_name=$app-api --action="start" --log_path="/var/log/$app/$app-api.log" --line_match="welcome to penpot"
 
 #ynh_systemd_action --service_name=$app-proxy --action="start" --log_path="/var/log/$app/$app-proxy.log" --line_match="Running server!"
 
