@@ -51,7 +51,8 @@ ynh_script_progression --message="Setting up source files..."
 
 ynh_setup_source --dest_dir="$install_dir/build"
 
-chown -R $app:$app "$install_dir"
+chown -R $app:www-data "$install_dir"
+chmod -R 755 "$install_dir"
 
 #=================================================
 # INSTALL APP
@@ -157,15 +158,19 @@ ynh_add_config --template="environ" --destination="$install_dir/backend/environ"
 chmod 400 "$install_dir/backend/environ"
 chown $app:$app "$install_dir/backend/environ"
 
+ynh_add_config --template="exporter.env" --destination="$install_dir/exporter/.env"
+chmod 400 "$install_dir/exporter/.env"
+chown $app:$app "$install_dir/exporter/.env"
+
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..." --weight=1
 
 # Start a systemd service
-ynh_systemd_action --service_name=$app-api --action="start" --log_path="/var/log/$app/$app-api.log" --line_match="welcome to penpot"
+ynh_systemd_action --service_name=$app-backend --action="start" --log_path="/var/log/$app/$app-backend.log" --line_match="welcome to penpot"
 
-#ynh_systemd_action --service_name=$app-proxy --action="start" --log_path="/var/log/$app/$app-proxy.log" --line_match="Running server!"
+ynh_systemd_action --service_name=$app-exporter --action="start" --log_path="/var/log/$app/$app-exporter.log" --line_match="redis connection established"
 
 #=================================================
 # END OF SCRIPT
