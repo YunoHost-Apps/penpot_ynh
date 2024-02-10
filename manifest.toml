@@ -42,10 +42,9 @@ ram.runtime = "50M"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://github.com/penpot/penpot/archive/refs/tags/1.19.2.tar.gz"
-        sha256 = "14de5b71f13f0fd542234f16fa5a307fbee7088bdfa343a53ff923b3f95f4edb"
-        autoupdate.strategy = "latest_github_release"
-
+        url = "https://github.com/penpot/penpot/archive/refs/tags/1.19.3.tar.gz"
+        sha256 = "2649db3bd8742540f76f33547095b227e86c5bda74908a900011b8516d4bb3ce"
+        
         [resources.sources.jdk]
         amd64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.2%2B13/OpenJDK21U-jdk_x64_linux_hotspot_21.0.2_13.tar.gz"
         amd64.sha256 = "454bebb2c9fe48d981341461ffb6bf1017c7b7c6e15c6b0c29b959194ba3aaa5"

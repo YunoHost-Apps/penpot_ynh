@@ -10,9 +10,11 @@ source /usr/share/yunohost/helpers
 
 redis_db=$(ynh_redis_get_free_db)
 secret_key=$(ynh_string_random --length=40)
+main_domain=$(yunohost domain list --output-as plain | grep -A1 -e '#main' | tail -n 1)
 
 ynh_app_setting_set --app=$app --key=redis_db --value=$redis_db
 ynh_app_setting_set --app=$app --key=secret_key --value=$secret_key
+ynh_app_setting_set --app=$app --key=main_domain --value=$main_domain
 
 #=================================================
 # INSTALL DEPENDENCIES
@@ -116,10 +118,23 @@ mkdir -p $install_dir/exporter
 mv $install_dir/build/exporter/target/* $install_dir/exporter
 chown -R $app:$app $install_dir/exporter
 chmod -R 700 $install_dir/exporter
+
+ynh_secure_remove --file=$install_dir/.cache
+
 pushd $install_dir/exporter
     ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn install --pure-lockfile
     ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn --network-timeout 1000000 run playwright install chromium
 popd
+
+ynh_script_progression --message="Cleaning up..." --weight=1
+
+ynh_secure_remove --file=$install_dir/.npm
+ynh_secure_remove --file=$install_dir/.yarn
+ynh_secure_remove --file=$install_dir/build
+ynh_secure_remove --file=$install_dir/.m2
+ynh_secure_remove --file=$install_dir/.clojure
+ynh_secure_remove --file=$install_dir/clojure
+ynh_secure_remove --file=$install_dir/babashka
 
 #=================================================
 # SYSTEM CONFIGURATION

@@ -1,0 +1,25 @@
+From 43585e806da2002b4b070489e2f6db6aafb3ca2f Mon Sep 17 00:00:00 2001
+From: orhtej2 <2871798+orhtej2@users.noreply.github.com>
+Date: Sat, 10 Feb 2024 20:01:35 +0100
+Subject: [PATCH] Don't use zygote and GPU for export.
+
+---
+ exporter/src/app/browser.cljs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/exporter/src/app/browser.cljs b/exporter/src/app/browser.cljs
+index 3cbcf2b98..c2c44e774 100644
+--- a/exporter/src/app/browser.cljs
++++ b/exporter/src/app/browser.cljs
+@@ -100,7 +100,7 @@
+ 
+ (def browser-pool-factory
+   (letfn [(create []
+-            (p/let [opts    #js {:args #js ["--font-render-hinting=none"]}
++            (p/let [opts    #js {:args #js ["--font-render-hinting=none", "--disable-gpu", "--no-zygote"]}
+                     browser (.launch pw/chromium opts)
+                     id      (swap! pool-browser-id inc)]
+               (l/info :origin "factory" :action "create" :browser-id id)
+-- 
+2.42.0.windows.2
+
