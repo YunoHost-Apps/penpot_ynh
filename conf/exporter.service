@@ -12,6 +12,11 @@ WorkingDirectory=__INSTALL_DIR__/exporter
 ExecStart=__YNH_NODE__ --env-file=.env app.js
 Restart=always
 Environment=__YNH_NODE_LOAD_PATH__
+Environment=NODE_ENV=production
+Environment=PENPOT_HTTP_SERVER_PORT=__PORT_EXPORTER__
+Environment=PENPOT_HTTP_SERVER_host="127.0.0.1"
+Environment=PENPOT_PUBLIC_URI="https://__DOMAIN__"
+Environment=PENPOT_REDIS_URI="redis://127.0.0.1:6379/__REDIS_DB__"
 StandardOutput=append:/var/log/__APP__/__APP__-exporter.log 
 StandardError=inherit
 Restart=on-failure

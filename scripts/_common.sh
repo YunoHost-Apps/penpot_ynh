@@ -4,8 +4,8 @@
 # COMMON VARIABLES
 #=================================================
 
-nodejs_version=20
-current_hash=cc5b1c950be5b1b290ea76e3419057dffaeab797
+nodejs_version=18
+current_hash="1eaf7b2b44a9e8928a70d9a882f4372602700695"
 
 #=================================================
 # PERSONAL HELPERS
