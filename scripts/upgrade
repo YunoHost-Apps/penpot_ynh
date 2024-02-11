@@ -166,7 +166,7 @@ ynh_use_logrotate --logfile="/var/log/$app/$app-exporter.log"
 #=================================================
 ynh_script_progression --message="Updating a configuration file..."
 
-nh_add_config --template="config.js" --destination="$install_dir/frontend/js/config.js"
+ynh_add_config --template="config.js" --destination="$install_dir/frontend/js/config.js"
 chmod 755 "$install_dir/frontend/js/config.js"
 chown $app:www-data "$install_dir/frontend/js/config.js"
 
