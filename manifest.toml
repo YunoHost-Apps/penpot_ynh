@@ -6,7 +6,7 @@ name = "Penpot"
 description.en = "Penpot - The Open-Source design and prototyping platform"
 description.fr = "Penpot - La plateforme de conception et de prototypage open-source"
 
-version = "1.19.2~ynh1"
+version = "1.19.3~ynh1"
 
 maintainers = ["orhtej2"]
 
