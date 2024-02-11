@@ -5,7 +5,9 @@
 #=================================================
 
 nodejs_version=20
-current_hash="1eaf7b2b44a9e8928a70d9a882f4372602700695"
+current_hash="1eaf7b2b4"
+version="1.19.3-10698-g1eaf7b2b4"
+build_date="Mon, 18 Sep 2023 09:14:03 +0000"
 
 #=================================================
 # PERSONAL HELPERS

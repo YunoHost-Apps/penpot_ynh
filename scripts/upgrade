@@ -14,15 +14,14 @@ upgrade_type=$(ynh_check_app_version_changed)
 #=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
-# ENSURE DOWNWARD COMPATIBILITY
-#=================================================
 
 #=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Stopping a systemd service..."
 
-ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app-backend --action="stop"
+ynh_systemd_action --service_name=$app-backend --action="stop"
 
 #=================================================
 # "REBUILD" THE APP (DEPLOY NEW SOURCES, RERUN NPM BUILD...)
@@ -30,15 +29,117 @@ ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 
+ynh_script_progression --message="Installing dependencies..." --weight=10
+
+# Install Nodejs
+ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
+ynh_use_nodejs
+
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
+	ynh_setup_source --dest_dir="$install_dir/jdk" --source_id="jdk"
+	export JAVA_HOME=$install_dir/jdk
+
+	chown -R $app:www-data "$install_dir"
+	tmp_dir=$(mktemp -d)
+
+	pushd $tmp_dir
+		curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
+		chmod +x linux-install.sh
+		ynh_exec_warn_less ./linux-install.sh -p $install_dir/clojure
+	popd
+
+	ynh_secure_remove --file=$tmp_dir
+
+	ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka"
+
+	export PATH=$install_dir/clojure/bin:$install_dir/babashka:$PATH
+
 	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$install_dir"
-fi
+	chown -R $app:www-data "$install_dir"
+	chmod -R 755 "$install_dir"
 
-chown -R $app:www-data "$install_dir"
+	ynh_script_progression --message="Building frontend..." --weight=5
+
+	pushd $install_dir/build/frontend
+		ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install --pure-lockfile
+		
+		# ynh_exec_warn_less 
+		ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
+		ynh_exec_as $app $ynh_node_load_PATH npm exec gulp build
+		ynh_exec_as $app $ynh_node_load_PATH npm exec gulp dist:clean
+		ynh_exec_as $app $ynh_node_load_PATH npm exec gulp dist:copy 
+
+		sed -i -re "s/\%version\%/$version/g" ./target/dist/index.html;
+		sed -i -re "s/\%buildDate\%/$build_date/g" ./target/dist/index.html;
+		echo "$version" > target/version.txt;
+	popd
+
+	mkdir -p $install_dir/frontend
+	mv $install_dir/build/frontend/target/dist/* $install_dir/frontend
+	chown -R $app:www-data $install_dir/frontend
+	chmod -R 755 $install_dir/frontend
+
+	ynh_script_progression --message="Building backend..." --weight=5
+
+	pushd $install_dir/build/backend
+		mkdir -p target/classes;
+		mkdir -p target/dist;
+		echo "$version" > target/classes/version.txt;
+		chown -R $app:$app target
+
+		ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -T:build jar;
+		mv target/penpot.jar target/dist/penpot.jar
+		cp resources/log4j2.xml target/dist/log4j2.xml
+		cp scripts/run.template.sh target/dist/run.sh
+		chmod +x target/dist/run.sh;
+
+		# Prefetch templates
+		mkdir builtin-templates;
+		bb ./scripts/prefetch-templates.clj resources/app/onboarding.edn builtin-templates/
+		cp -r builtin-templates target/dist/
+	popd
+
+	mkdir -p $install_dir/backend
+	mv $install_dir/build/backend/target/dist/* $install_dir/backend
+	chown -R $app:$app $install_dir/backend
+	chmod -R 700 $install_dir/backend
+
+	ynh_script_progression --message="Building exporter..." --weight=5
+
+	pushd $install_dir/build/exporter
+		ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main
+		cp yarn.lock target/
+		cp package.json target/
+		
+		sed -i -re "s/\%version\%/$version/g" ./target/app.js
+	popd
+
+	mkdir -p $install_dir/exporter
+	mv $install_dir/build/exporter/target/* $install_dir/exporter
+	chown -R $app:$app $install_dir/exporter
+	chmod -R 700 $install_dir/exporter
+
+	ynh_secure_remove --file=$install_dir/.cache
+
+	pushd $install_dir/exporter
+		ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn install --pure-lockfile
+		ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn --network-timeout 1000000 run playwright install chromium
+	popd
+
+	ynh_script_progression --message="Cleaning up..." --weight=1
+
+	ynh_secure_remove --file=$install_dir/.npm
+	ynh_secure_remove --file=$install_dir/.yarn
+	ynh_secure_remove --file=$install_dir/build
+	ynh_secure_remove --file=$install_dir/.m2
+	ynh_secure_remove --file=$install_dir/.clojure
+	ynh_secure_remove --file=$install_dir/clojure
+	ynh_secure_remove --file=$install_dir/babashka
+fi
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
@@ -47,11 +148,14 @@ ynh_script_progression --message="Upgrading system configurations related to $ap
 
 ynh_add_nginx_config
 
-ynh_add_systemd_config
+ynh_add_systemd_config --template="backend.service" --service="$app-backend"
+yunohost service add $app-backend --log="/var/log/$app/$app-backend.log"
 
-yunohost service add $app --log="/var/log/$app/$app.log"
+ynh_add_systemd_config --template="exporter.service" --service="$app-exporter"
+yunohost service add $app-exporter --log="/var/log/$app/$app-exporter.log"
 
-ynh_use_logrotate --non-append
+ynh_use_logrotate --non-append --logfile="/var/log/$app/$app-backend.log"
+ynh_use_logrotate --logfile="/var/log/$app/$app-exporter.log"
 
 #=================================================
 # RECONFIGURE THE APP (UPDATE CONF, APPLY MIGRATIONS...)
@@ -60,17 +164,26 @@ ynh_use_logrotate --non-append
 #=================================================
 ynh_script_progression --message="Updating a configuration file..."
 
-ynh_add_config --template="" --destination="$install_dir/"
+nh_add_config --template="config.js" --destination="$install_dir/frontend/js/config.js"
+chmod 755 "$install_dir/frontend/js/config.js"
+chown $app:www-data "$install_dir/frontend/js/config.js"
 
-chmod 400 "$install_dir/some_config_file"
-chown $app:$app "$install_dir/some_config_file"
+ynh_add_config --template="environ" --destination="$install_dir/backend/environ"
+chmod 400 "$install_dir/backend/environ"
+chown $app:$app "$install_dir/backend/environ"
+
+ynh_add_config --template="exporter.env" --destination="$install_dir/exporter/.env"
+chmod 400 "$install_dir/exporter/.env"
+chown $app:$app "$install_dir/exporter/.env"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..."
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app-backend --action="start" --log_path="/var/log/$app/$app-backend.log" --line_match="welcome to penpot"
+
+ynh_systemd_action --service_name=$app-exporter --action="start" --log_path="/var/log/$app/$app-exporter.log" --line_match="redis connection established"
 
 #=================================================
 # END OF SCRIPT
