@@ -54,7 +54,8 @@ ynh_script_progression --message="Setting up source files..."
 ynh_setup_source --dest_dir="$install_dir/build"
 
 chown -R $app:www-data "$install_dir"
-chmod -R 755 "$install_dir"
+chmod -R o-rwx "$install_dir"
+chown -R $app:www-data "$install_dir"
 
 #=================================================
 # INSTALL APP
@@ -66,9 +67,9 @@ pushd $install_dir/build/frontend
     
     # ynh_exec_warn_less 
     ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
-    ynh_exec_as $app $ynh_node_load_PATH npm exec gulp build
-    ynh_exec_as $app $ynh_node_load_PATH npm exec gulp dist:clean
-    ynh_exec_as $app $ynh_node_load_PATH npm exec gulp dist:copy 
+    ynh_exec_as $app $ynh_node_load_PATH $ynh_npm exec gulp build
+    ynh_exec_as $app $ynh_node_load_PATH $ynh_npm exec gulp dist:clean
+    ynh_exec_as $app $ynh_node_load_PATH $ynh_npm exec gulp dist:copy 
 
     sed -i -re "s/\%version\%/$version/g" ./target/dist/index.html;
     sed -i -re "s/\%buildDate\%/$build_date/g" ./target/dist/index.html;
@@ -78,7 +79,7 @@ popd
 mkdir -p $install_dir/frontend
 mv $install_dir/build/frontend/target/dist/* $install_dir/frontend
 chown -R $app:www-data $install_dir/frontend
-chmod -R 755 $install_dir/frontend
+chmod -R 750 $install_dir/frontend
 
 ynh_script_progression --message="Building backend..." --weight=5
 
