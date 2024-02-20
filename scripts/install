@@ -71,8 +71,8 @@ pushd $install_dir/build/frontend
     ynh_exec_as $app $ynh_node_load_PATH $ynh_npm exec gulp dist:clean
     ynh_exec_as $app $ynh_node_load_PATH $ynh_npm exec gulp dist:copy 
 
-    sed -i -re "s/\%version\%/$version/g" ./target/dist/index.html;
-    sed -i -re "s/\%buildDate\%/$build_date/g" ./target/dist/index.html;
+    ynh_replace_string --match_string="%version%" --replace_string="$version" --target_file="$install_dir/build/frontend/target/dist/index.html"
+    ynh_replace_string --match_string="%buildDate%" --replace_string="$build_date" --target_file="$install_dir/build/frontend/target/dist/index.html"
     echo "$version" > target/version.txt;
 popd
 
@@ -113,7 +113,7 @@ pushd $install_dir/build/exporter
     cp yarn.lock target/
     cp package.json target/
     
-    sed -i -re "s/\%version\%/$version/g" ./target/app.js
+    ynh_replace_string --match_string="%version%" --replace_string="$version" --target_file="$install_dir/build/exporter/target/app.js"
 popd
 
 mkdir -p $install_dir/exporter
