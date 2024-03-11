@@ -36,7 +36,7 @@ ynh_use_nodejs
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
-	ynh_setup_source --dest_dir="$install_dir/jdk" --source_id="jdk"
+	ynh_setup_source --dest_dir="$install_dir/jdk" --source_id="jdk" --full_replace=1
 	export JAVA_HOME=$install_dir/jdk
 
 	chown -R $app:www-data "$install_dir"
@@ -50,14 +50,14 @@ then
 
 	ynh_secure_remove --file=$tmp_dir
 
-	ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka"
+	ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka" --full_replace=1
 
 	export PATH=$install_dir/clojure/bin:$install_dir/babashka:$PATH
 
 	ynh_script_progression --message="Upgrading source files..."
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$install_dir/build"
+	ynh_setup_source --dest_dir="$install_dir/build" --full_replace=1
 	chmod -R o-rwx "$install_dir"
 	chown -R $app:www-data "$install_dir"
 
