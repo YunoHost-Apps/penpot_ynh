@@ -52,7 +52,7 @@ then
 
 	ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka"
 
-	export PATH=$install_dir/clojure/bin:$install_dir/babashka:$PATH
+	export PATH=$JAVA_HOME/bin:$install_dir/clojure/bin:$install_dir/babashka:$PATH
 
 	ynh_script_progression --message="Upgrading source files..."
 

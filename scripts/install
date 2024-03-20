@@ -44,7 +44,7 @@ ynh_secure_remove --file=$tmp_dir
 
 ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka"
 
-export PATH=$install_dir/clojure/bin:$install_dir/babashka:$PATH
+export PATH=$JAVA_HOME/bin:$install_dir/clojure/bin:$install_dir/babashka:$PATH
 
 #=================================================
 # APP "BUILD" (DEPLOYING SOURCES, VENV, COMPILING ETC)
