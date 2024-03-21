@@ -17,8 +17,7 @@ Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) po
 ## Vue d’ensemble
 
 Design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, web based and works with open standards (SVG). Penpot invites designers all over the world to fall in love with open source while getting developers excited about the design process in return.
-
-**Version incluse :** 1.19.3~ynh2
+**Version incluse :** 1.19.3~ynh3
 
 ## Captures d’écran
 
@@ -26,12 +25,12 @@ Design and prototyping platform meant for cross-domain teams. Non dependent on o
 
 ## Documentations et ressources
 
-* Site officiel de l’app : <https://penpot.app/>
-* Documentation officielle utilisateur : <https://help.penpot.app/user-guide/>
-* Documentation officielle de l’admin : <https://help.penpot.app/technical-guide/>
-* Dépôt de code officiel de l’app : <https://github.com/penpot/penpot>
-* YunoHost Store: <https://apps.yunohost.org/app/penpot>
-* Signaler un bug : <https://github.com/YunoHost-Apps/penpot_ynh/issues>
+- Site officiel de l’app : <https://penpot.app/>
+- Documentation officielle utilisateur : <https://help.penpot.app/user-guide/>
+- Documentation officielle de l’admin : <https://help.penpot.app/technical-guide/>
+- Dépôt de code officiel de l’app : <https://github.com/penpot/penpot>
+- YunoHost Store : <https://apps.yunohost.org/app/penpot>
+- Signaler un bug : <https://github.com/YunoHost-Apps/penpot_ynh/issues>
 
 ## Informations pour les développeurs
 
@@ -39,7 +38,7 @@ Merci de faire vos pull request sur la [branche testing](https://github.com/Yuno
 
 Pour essayer la branche testing, procédez comme suit.
 
-``` bash
+```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/penpot_ynh/tree/testing --debug
 ou
 sudo yunohost app upgrade penpot -u https://github.com/YunoHost-Apps/penpot_ynh/tree/testing --debug
