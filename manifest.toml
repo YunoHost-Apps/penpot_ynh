@@ -6,7 +6,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "1.19.3~ynh2"
+version = "1.19.3~ynh3"
 
 maintainers = ["orhtej2"]
 
@@ -44,7 +44,7 @@ ram.runtime = "50M"
         [resources.sources.main]
         url = "https://github.com/penpot/penpot/archive/refs/tags/1.19.3.tar.gz"
         sha256 = "2649db3bd8742540f76f33547095b227e86c5bda74908a900011b8516d4bb3ce"
-        
+
         [resources.sources.jdk]
         amd64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.2%2B13/OpenJDK21U-jdk_x64_linux_hotspot_21.0.2_13.tar.gz"
         amd64.sha256 = "454bebb2c9fe48d981341461ffb6bf1017c7b7c6e15c6b0c29b959194ba3aaa5"
@@ -72,7 +72,7 @@ ram.runtime = "50M"
 
     [resources.ports]
         [resources.ports.exporter]
-    
+
     [resources.apt]
     packages = [
         "postgresql",
