@@ -132,6 +132,7 @@ chmod -R 700 $install_dir/exporter
 ynh_secure_remove --file=$install_dir/.cache
 
 pushd $install_dir/exporter
+    ynh_exec_warn_less ynh_exec_as "$app" env $ynh_node_load_PATH corepack prepare --activate
     ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn install --immutable
     ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn run playwright install chromium
 popd
