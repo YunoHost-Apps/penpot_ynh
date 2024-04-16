@@ -90,6 +90,7 @@ pushd $install_dir/build/backend
     mkdir -p target/classes;
     mkdir -p target/dist;
     echo "$version" > target/classes/version.txt;
+    cp ../CHANGES.md target/classes/changelog.md;
     chown -R $app:$app target
 
     ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -T:build jar;
@@ -112,7 +113,11 @@ chmod -R 700 $install_dir/backend
 ynh_script_progression --message="Building exporter..." --weight=5
 
 pushd $install_dir/build/exporter
+    ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install --immutable
+    ynh_secure_remove --file="target"
     ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main
+    ynh_secure_remove --file="target/app"
+    cp ../.yarnrc.yml target/
     cp yarn.lock target/
     cp package.json target/
     
@@ -127,8 +132,8 @@ chmod -R 700 $install_dir/exporter
 ynh_secure_remove --file=$install_dir/.cache
 
 pushd $install_dir/exporter
-    ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn install --pure-lockfile
-    ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn --network-timeout 1000000 run playwright install chromium
+    ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn install --immutable
+    ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn run playwright install chromium
 popd
 
 ynh_script_progression --message="Cleaning up..." --weight=1
