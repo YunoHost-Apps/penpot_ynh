@@ -6,7 +6,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "1.19.3~ynh3"
+version = "2.0.0~ynh3"
 
 maintainers = ["orhtej2"]
 
@@ -42,8 +42,9 @@ ram.runtime = "50M"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://github.com/penpot/penpot/archive/refs/tags/1.19.3.tar.gz"
-        sha256 = "2649db3bd8742540f76f33547095b227e86c5bda74908a900011b8516d4bb3ce"
+        url = "https://github.com/penpot/penpot/archive/refs/tags/2.0.0.tar.gz"
+        sha256 = "133fc088b2e194ffdd3a9816c7fabcf9630699157ce28a242c81cb6283de6af6"
+        autoupdate.strategy = "latest_github_tag"
 
         [resources.sources.jdk]
         amd64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.2%2B13/OpenJDK21U-jdk_x64_linux_hotspot_21.0.2_13.tar.gz"
