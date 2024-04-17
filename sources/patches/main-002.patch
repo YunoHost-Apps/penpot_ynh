@@ -74,7 +74,9 @@ index 8c7675643..df6c17016 100644
 +++ b/backend/src/app/migrations/sql/0114-mod-team-table.sql
 @@ -1,4 +1,5 @@
  --- Add deletion protection
+-CREATE OR REPLACE TRIGGER deletion_protection__tgr
 +DROP TRIGGER IF EXISTS deletion_protection__tgr on team;
++CREATE TRIGGER deletion_protection__tgr
  CREATE OR REPLACE TRIGGER deletion_protection__tgr
  BEFORE DELETE ON team FOR EACH STATEMENT
    WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
