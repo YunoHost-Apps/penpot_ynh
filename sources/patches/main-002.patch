@@ -1,5 +1,5 @@
 diff --git a/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql b/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql
-index b7d05bdc7..57dc229ca 100644
+index b7d05bdc7..57dc229ca 100645
 --- a/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql
 +++ b/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql
 @@ -18,7 +18,8 @@ ALTER TABLE file_thumbnail
