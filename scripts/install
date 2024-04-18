@@ -64,10 +64,10 @@ chmod -R o-rwx "$install_dir"
 ynh_script_progression --message="Building frontend..." --weight=5
 
 pushd $install_dir/build/frontend
-    ynh_exec_warn_less env $ynh_node_load_PATH corepack enable
-    ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH corepack enable
-    ynh_exec_warn_less ynh_exec_as "$app" env $ynh_node_load_PATH corepack prepare --activate
-    ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn install --immutable
+    ynh_exec_warn_less env $ynh_node_load_PATH COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack enable
+    ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack enable
+    ynh_exec_warn_less ynh_exec_as "$app" env $ynh_node_load_PATH COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack prepare --activate
+    ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install --immutable
     
     # ynh_exec_warn_less 
     ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
