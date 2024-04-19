@@ -117,8 +117,6 @@ ynh_exec_warn_less ynh_exec_as "$app" env $ynh_node_load_PATH corepack prepare -
     ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install --immutable
     ynh_secure_remove --file="target"
     ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main
-    #ynh_secure_remove --file="target/app"
-    cp ../.yarnrc.yml target/
     cp yarn.lock target/
     cp package.json target/
     
@@ -127,6 +125,7 @@ popd
 
 mkdir -p $install_dir/exporter
 mv $install_dir/build/exporter/target/* $install_dir/exporter
+cp $install_dir/build/exporter/.yarnrc.yml $install_dir/exporter
 chown -R $app:$app $install_dir/exporter
 chmod -R 700 $install_dir/exporter
 
@@ -140,17 +139,17 @@ popd
 
 ynh_script_progression --message="Cleaning up..." --weight=1
 
-# ynh_secure_remove --file=$install_dir/.npm
-# ynh_secure_remove --file=$install_dir/.yarn
-#ynh_secure_remove --file=$install_dir/build
-# ynh_secure_remove --file=$install_dir/.m2
-# ynh_secure_remove --file=$install_dir/.clojure
-# ynh_secure_remove --file=$install_dir/clojure
-# ynh_secure_remove --file=$install_dir/babashka
-# ynh_secure_remove --file=$install_dir/.cache/ms-playwright/firefox-*
-# ynh_secure_remove --file=$install_dir/.cache/ms-playwright/webkit-*
-# ynh_secure_remove --file=$install_dir/.cache/yarn
-# ynh_secure_remove --file=$install_dir/.cache/node
+ynh_secure_remove --file=$install_dir/.npm
+ynh_secure_remove --file=$install_dir/.yarn
+ynh_secure_remove --file=$install_dir/build
+ynh_secure_remove --file=$install_dir/.m2
+ynh_secure_remove --file=$install_dir/.clojure
+ynh_secure_remove --file=$install_dir/clojure
+ynh_secure_remove --file=$install_dir/babashka
+ynh_secure_remove --file=$install_dir/.cache/ms-playwright/firefox-*
+ynh_secure_remove --file=$install_dir/.cache/ms-playwright/webkit-*
+ynh_secure_remove --file=$install_dir/.cache/yarn
+ynh_secure_remove --file=$install_dir/.cache/node
 
 #=================================================
 # SYSTEM CONFIGURATION
