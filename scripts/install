@@ -125,7 +125,7 @@ popd
 
 mkdir -p $install_dir/exporter
 mv $install_dir/build/exporter/target/* $install_dir/exporter
-cp $install_dir/build/exporter/.yarnrc.yml $install_dir/exporter
+cp $install_dir/build/.yarnrc.yml $install_dir/exporter
 chown -R $app:$app $install_dir/exporter
 chmod -R 700 $install_dir/exporter
 
