@@ -136,7 +136,7 @@ then
     pushd $install_dir/exporter
     ynh_exec_warn_less ynh_exec_as "$app" env $ynh_node_load_PATH corepack prepare --activate
     ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn install --immutable
-    ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn --network-timeout 1000000 run playwright install chromium
+    ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn run playwright install chromium
     popd
 
     ynh_script_progression --message="Cleaning up..." --weight=1
