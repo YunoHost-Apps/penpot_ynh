@@ -80,7 +80,7 @@ then
 
     ynh_secure_remove --file=$install_dir/frontend
     mkdir -p $install_dir/frontend
-    mv $install_dir/build/frontend/target/dist/* $install_dir/frontend
+    mv $install_dir/build/frontend/resources/public/* $install_dir/frontend
     chown -R $app:www-data $install_dir/frontend
     chmod -R 755 $install_dir/frontend
 
