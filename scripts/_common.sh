@@ -4,9 +4,9 @@
 # COMMON VARIABLES
 #=================================================
 
-nodejs_version=20
-current_hash="41cdd245"
-version="2.0.0-10698-g41cdd245"
+nodejs_version=21
+current_hash="380c77a7"
+version="2.0.2-10698-g380c77a7"
 build_date="Mon, 18 Sep 2023 09:14:03 +0000"
 
 #=================================================
