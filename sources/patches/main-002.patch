@@ -1,0 +1,82 @@
+diff --git a/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql b/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql
+index b7d05bdc7..57dc229ca 100645
+--- a/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql
++++ b/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql
+@@ -18,7 +18,8 @@ ALTER TABLE file_thumbnail
+   ADD FOREIGN KEY (media_id) REFERENCES storage_object(id) DEFERRABLE;
+ 
+ --- Add deletion protection
+-CREATE OR REPLACE TRIGGER deletion_protection__tgr
++DROP TRIGGER IF EXISTS deletion_protection__tgr on file_thumbnail;
++CREATE TRIGGER deletion_protection__tgr
+ BEFORE DELETE ON file_thumbnail FOR EACH STATEMENT
+   WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
+         (current_setting('rules.deletion_protection', true) IS NULL))
+diff --git a/backend/src/app/migrations/sql/0109-mod-file-tagged-object-thumbnail-table.sql b/backend/src/app/migrations/sql/0109-mod-file-tagged-object-thumbnail-table.sql
+index 3184a6576..37e77d3e1 100644
+--- a/backend/src/app/migrations/sql/0109-mod-file-tagged-object-thumbnail-table.sql
++++ b/backend/src/app/migrations/sql/0109-mod-file-tagged-object-thumbnail-table.sql
+@@ -19,7 +19,8 @@ ALTER TABLE file_tagged_object_thumbnail
+   ADD FOREIGN KEY (file_id) REFERENCES file(id) DEFERRABLE;
+ 
+ --- Add deletion protection
+-CREATE OR REPLACE TRIGGER deletion_protection__tgr
++DROP TRIGGER IF EXISTS deletion_protection__tgr on file_tagged_object_thumbnail;
++CREATE TRIGGER deletion_protection__tgr
+ BEFORE DELETE ON file_tagged_object_thumbnail FOR EACH STATEMENT
+   WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
+         (current_setting('rules.deletion_protection', true) IS NULL))
+diff --git a/backend/src/app/migrations/sql/0110-mod-file-media-object-table.sql b/backend/src/app/migrations/sql/0110-mod-file-media-object-table.sql
+index 49cbebc96..cbf480079 100644
+--- a/backend/src/app/migrations/sql/0110-mod-file-media-object-table.sql
++++ b/backend/src/app/migrations/sql/0110-mod-file-media-object-table.sql
+@@ -20,7 +20,8 @@ ALTER TABLE file_media_object
+   ADD FOREIGN KEY (file_id) REFERENCES file(id) DEFERRABLE;
+ 
+ --- Add deletion protection
+-CREATE OR REPLACE TRIGGER deletion_protection__tgr
++DROP TRIGGER IF EXISTS deletion_protection__tgr on file_media_object;
++CREATE TRIGGER deletion_protection__tgr
+ BEFORE DELETE ON file_media_object FOR EACH STATEMENT
+   WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
+         (current_setting('rules.deletion_protection', true) IS NULL))
+diff --git a/backend/src/app/migrations/sql/0112-mod-profile-table.sql b/backend/src/app/migrations/sql/0112-mod-profile-table.sql
+index 2db8d75b0..ae2f1c8fe 100644
+--- a/backend/src/app/migrations/sql/0112-mod-profile-table.sql
++++ b/backend/src/app/migrations/sql/0112-mod-profile-table.sql
+@@ -7,7 +7,8 @@ ALTER TABLE profile
+   ADD FOREIGN KEY (default_team_id) REFERENCES team(id) DEFERRABLE;
+ 
+ --- Add deletion protection
+-CREATE OR REPLACE TRIGGER deletion_protection__tgr
++DROP TRIGGER IF EXISTS deletion_protection__tgr on profile;
++CREATE TRIGGER deletion_protection__tgr
+ BEFORE DELETE ON profile FOR EACH STATEMENT
+   WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
+         (current_setting('rules.deletion_protection', true) IS NULL))
+diff --git a/backend/src/app/migrations/sql/0113-mod-team-font-variant-table.sql b/backend/src/app/migrations/sql/0113-mod-team-font-variant-table.sql
+index b9caa08f6..b80806fb1 100644
+--- a/backend/src/app/migrations/sql/0113-mod-team-font-variant-table.sql
++++ b/backend/src/app/migrations/sql/0113-mod-team-font-variant-table.sql
+@@ -13,7 +13,8 @@ ALTER TABLE team_font_variant
+   ADD FOREIGN KEY (team_id) REFERENCES team(id) DEFERRABLE;
+ 
+ --- Add deletion protection
+-CREATE OR REPLACE TRIGGER deletion_protection__tgr
++DROP TRIGGER IF EXISTS deletion_protection__tgr on team_font_variant;
++CREATE TRIGGER deletion_protection__tgr
+ BEFORE DELETE ON team_font_variant FOR EACH STATEMENT
+   WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
+         (current_setting('rules.deletion_protection', true) IS NULL))
+diff --git a/backend/src/app/migrations/sql/0114-mod-team-table.sql b/backend/src/app/migrations/sql/0114-mod-team-table.sql
+index 8c7675643..df6c17016 100644
+--- a/backend/src/app/migrations/sql/0114-mod-team-table.sql
++++ b/backend/src/app/migrations/sql/0114-mod-team-table.sql
+@@ -1,4 +1,5 @@
+ --- Add deletion protection
+-CREATE OR REPLACE TRIGGER deletion_protection__tgr
++DROP TRIGGER IF EXISTS deletion_protection__tgr on team;
++CREATE TRIGGER deletion_protection__tgr
+ CREATE OR REPLACE TRIGGER deletion_protection__tgr
+ BEFORE DELETE ON team FOR EACH STATEMENT
+   WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
