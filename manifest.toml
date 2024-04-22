@@ -1,3 +1,5 @@
+#:schema https://raw.githubusercontent.com/YunoHost/apps/master/schemas/manifest.v2.schema.json
+
 packaging_format = 2
 
 id = "penpot"
@@ -52,6 +54,7 @@ ram.runtime = "50M"
         arm64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.3%2B9/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.3_9.tar.gz"
         arm64.sha256 = "7d3ab0e8eba95bd682cfda8041c6cb6fa21e09d0d9131316fd7c96c78969de31"
         autoupdate.strategy = "latest_github_release"
+        autoupdate.upstream = "https://github.com/adoptium/temurin21-binaries"
         autoupdate.asset.amd64 = "OpenJDK.*-jdk_x64_linux_hotspot_.*\\.tar\\.gz"
         autoupdate.asset.arm64 = "OpenJDK.*-jdk_aarch64_linux_hotspot_.*\\.tar\\.gz"
 
@@ -62,6 +65,7 @@ ram.runtime = "50M"
         arm64.sha256 = "3832a48fb0f5da1343bd1cc520db2759b28c90774ab53779c288952191f26f62"
         in_subdir = false
         autoupdate.strategy = "latest_github_release"
+        autoupdate.upstream = "https://github.com/babashka/babashka"
         autoupdate.asset.amd64 = "babashka-.*-linux-amd64-static\\.tar\\.gz"
         autoupdate.asset.arm64 = "babashka-.*-linux-aarch64-static\\.tar\\.gz"
     [resources.system_user]
