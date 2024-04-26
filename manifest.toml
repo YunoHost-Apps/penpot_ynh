@@ -67,8 +67,8 @@ ram.runtime = "50M"
         in_subdir = false
         autoupdate.strategy = "latest_github_release"
         autoupdate.upstream = "https://github.com/babashka/babashka"
-        autoupdate.asset.amd64 = "babashka-.*-linux-amd64-static\\.tar\\.gz"
-        autoupdate.asset.arm64 = "babashka-.*-linux-aarch64-static\\.tar\\.gz"
+        autoupdate.asset.amd64 = "babashka-.*-linux-amd64-static\\.tar\\.gz$"
+        autoupdate.asset.arm64 = "babashka-.*-linux-aarch64-static\\.tar\\.gz$"
     [resources.system_user]
     allow_email = true
 
