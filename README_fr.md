@@ -18,7 +18,7 @@ Il NE doit PAS être modifié à la main.
 
 Design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, web based and works with open standards (SVG). Penpot invites designers all over the world to fall in love with open source while getting developers excited about the design process in return.
 
-**Version incluse :** 2.0.2~ynh1
+**Version incluse :** 2.0-hotfix4~ynh1
 
 ## Captures d’écran
 
