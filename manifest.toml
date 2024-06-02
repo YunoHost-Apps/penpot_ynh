@@ -45,7 +45,7 @@ ram.runtime = "50M"
 
         [resources.sources.main]
         url = "https://github.com/penpot/penpot/archive/refs/tags/2.0.3.tar.gz"
-        sha256 = "2d3407d784e64f799578c8a81a440f0f19756eb4355904fa6054a2909f9288c6"
+        sha256 = "8b0e05e238d1167b4d67f5a772834a98e0fd34d21c73b15a7b2407e1daa784ad"
         autoupdate.strategy = "latest_github_tag"
 
         [resources.sources.jdk]
