@@ -5,7 +5,7 @@ EZ editatu eskuz.
 
 # Penpot YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/penpot.svg)](https://dash.yunohost.org/appci/app/penpot) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/penpot.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/penpot.maintain.svg)
+[![Integrazio maila](https://dash.yunohost.org/integration/penpot.svg)](https://ci-apps.yunohost.org/ci/apps/penpot/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/penpot.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/penpot.maintain.svg)
 
 [![Instalatu Penpot YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=penpot)
 
@@ -18,7 +18,7 @@ EZ editatu eskuz.
 
 Design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, web based and works with open standards (SVG). Penpot invites designers all over the world to fall in love with open source while getting developers excited about the design process in return.
 
-**Paketatutako bertsioa:** 2.0.3~ynh2
+**Paketatutako bertsioa:** 2.1.0~ynh1
 
 ## Pantaila-argazkiak
 
