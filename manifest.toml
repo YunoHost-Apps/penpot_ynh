@@ -8,7 +8,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.1.0~ynh2"
+version = "2.1.0~ynh3"
 
 maintainers = ["orhtej2"]
 
@@ -49,10 +49,10 @@ ram.runtime = "50M"
         autoupdate.strategy = "latest_github_tag"
 
         [resources.sources.jdk]
-        amd64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.3%2B9/OpenJDK21U-jdk_x64_linux_hotspot_21.0.3_9.tar.gz"
-        amd64.sha256 = "fffa52c22d797b715a962e6c8d11ec7d79b90dd819b5bc51d62137ea4b22a340"
-        arm64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.3%2B9/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.3_9.tar.gz"
-        arm64.sha256 = "7d3ab0e8eba95bd682cfda8041c6cb6fa21e09d0d9131316fd7c96c78969de31"
+        amd64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.4%2B7/OpenJDK21U-jdk_x64_linux_hotspot_21.0.4_7.tar.gz"
+        amd64.sha256 = "51fb4d03a4429c39d397d3a03a779077159317616550e4e71624c9843083e7b9"
+        arm64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.4%2B7/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.4_7.tar.gz"
+        arm64.sha256 = "d768eecddd7a515711659e02caef8516b7b7177fa34880a56398fd9822593a79"
         autoupdate.strategy = "latest_github_release"
         autoupdate.version_regex = "jdk-(\\d+\\.\\d+\\.\\d+)\\+(.*)"
         autoupdate.upstream = "https://github.com/adoptium/temurin21-binaries"
