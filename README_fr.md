@@ -22,7 +22,7 @@ Design and prototyping platform meant for cross-domain teams. Non dependent on o
 
 ## Captures d’écran
 
-![Capture d’écran de Penpot](./doc/screenshots/189871786-0b44f7cf-3a0a-4445-a87b-9919ec398bf7.gif)
+![Capture d’écran de Penpot](./doc/screenshots/penpot.png)
 
 ## Documentations et ressources
 
