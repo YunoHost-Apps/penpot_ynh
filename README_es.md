@@ -18,7 +18,7 @@ No se debe editar a mano.
 
 Design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, web based and works with open standards (SVG). Penpot invites designers all over the world to fall in love with open source while getting developers excited about the design process in return.
 
-**Versión actual:** 2.1.4~ynh1
+**Versión actual:** 2.1.4~ynh2
 
 ## Capturas
 
@@ -35,7 +35,7 @@ Design and prototyping platform meant for cross-domain teams. Non dependent on o
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/penpot_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/penpot_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 
