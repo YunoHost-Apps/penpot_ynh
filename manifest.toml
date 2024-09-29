@@ -8,7 +8,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.1.4~ynh2"
+version = "2.2.0~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -44,8 +44,8 @@ ram.runtime = "50M"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://github.com/penpot/penpot/archive/refs/tags/2.1.4.tar.gz"
-        sha256 = "fcc1bb377c3163e9c6ad8218d8f876f7bfa36f227fdd3030cf05e6a0ea0eceb7"
+        url = "https://github.com/penpot/penpot/archive/refs/tags/2.2.0.tar.gz"
+        sha256 = "842b3262fbcd0a0fec398a0b2817efddc831874214657732f7074ada8b9503b8"
         autoupdate.strategy = "latest_github_tag"
 
         [resources.sources.jdk]
