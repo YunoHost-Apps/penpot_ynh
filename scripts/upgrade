@@ -72,8 +72,8 @@ then
         # ynh_exec_warn_less 
         ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
 
-    ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn run build:app:assets
-    ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn run build:storybook
+        ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn run build:app:assets
+        ynh_exec_warn_less ynh_exec_as $app env PATH=$node_PATH:$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:storybook
 
         ynh_replace_string --match_string="%version%" --replace_string="$version" --target_file="$install_dir/build/frontend/resources/public/index.html"
         ynh_replace_string --match_string="%buildDate%" --replace_string="$build_date" --target_file="$install_dir/build/frontend/resources/public/index.html"
