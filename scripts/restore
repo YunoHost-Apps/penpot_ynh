@@ -15,9 +15,6 @@ ynh_script_progression "Restoring the app main directory..."
 
 ynh_restore "$install_dir"
 
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R $app:$app "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown $app:www-data "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
 chown -R $app:www-data "$install_dir/frontend"
 
 #=================================================
@@ -46,11 +43,6 @@ ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";"
 ynh_script_progression "Restoring system configurations related to $app..."
 
 # Use logrotate to manage application logfile(s)
-mkdir -p /var/log/$app
-touch /var/log/$app/$app-backend.log
-touch /var/log/$app/$app-exporter.log
-#REMOVEME? Assuming ynh_config_add_logrotate is called, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R $app: /var/log/$app
-
 ynh_restore "/etc/logrotate.d/$app"
 
 ynh_restore "/etc/nginx/conf.d/$domain.d/$app.conf"
