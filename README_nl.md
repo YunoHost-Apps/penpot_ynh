@@ -5,7 +5,9 @@ Hij mag NIET handmatig aangepast worden.
 
 # Penpot voor Yunohost
 
-[![Integratieniveau](https://dash.yunohost.org/integration/penpot.svg)](https://ci-apps.yunohost.org/ci/apps/penpot/) ![Mate van functioneren](https://ci-apps.yunohost.org/ci/badges/penpot.status.svg) ![Onderhoudsstatus](https://ci-apps.yunohost.org/ci/badges/penpot.maintain.svg)
+[![Integratieniveau](https://apps.yunohost.org/badge/integration/penpot)](https://ci-apps.yunohost.org/ci/apps/penpot/)
+![Mate van functioneren](https://apps.yunohost.org/badge/state/penpot)
+![Onderhoudsstatus](https://apps.yunohost.org/badge/maintained/penpot)
 
 [![Penpot met Yunohost installeren](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=penpot)
 
@@ -18,7 +20,7 @@ Hij mag NIET handmatig aangepast worden.
 
 Design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, web based and works with open standards (SVG). Penpot invites designers all over the world to fall in love with open source while getting developers excited about the design process in return.
 
-**Geleverde versie:** 2.3.2~ynh1
+**Geleverde versie:** 2.4.0~ynh1
 
 ## Schermafdrukken
 
