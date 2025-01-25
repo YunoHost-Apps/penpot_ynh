@@ -8,7 +8,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.4.1~ynh1"
+version = "2.4.2~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -44,15 +44,15 @@ ram.runtime = "500M"
     [resources.sources]
 
         [resources.sources.main]
-        url = "https://github.com/penpot/penpot/archive/refs/tags/2.4.1.tar.gz"
-        sha256 = "98181a114d6494777bcfb79153eb716a27ebf4d6dc395df8d7aa7d74a79028fd"
+        url = "https://github.com/penpot/penpot/archive/refs/tags/2.4.2.tar.gz"
+        sha256 = "b5c31f8aa007d02bd8a36dc70f0bb416e7562f4e3048daa75e0ac198ccf95424"
         autoupdate.strategy = "latest_github_tag"
 
         [resources.sources.jdk]
-        amd64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.5%2B11/OpenJDK21U-jdk_x64_linux_hotspot_21.0.5_11.tar.gz"
-        amd64.sha256 = "3c654d98404c073b8a7e66bffb27f4ae3e7ede47d13284c132d40a83144bfd8c"
-        arm64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.5%2B11/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.5_11.tar.gz"
-        arm64.sha256 = "6482639ed9fd22aa2e704cc366848b1b3e1586d2bf1213869c43e80bca58fe5c"
+        amd64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.6%2B7/OpenJDK21U-jdk_x64_linux_hotspot_21.0.6_7.tar.gz"
+        amd64.sha256 = "a2650fba422283fbed20d936ce5d2a52906a5414ec17b2f7676dddb87201dbae"
+        arm64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.6%2B7/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.6_7.tar.gz"
+        arm64.sha256 = "04fe1273f624187d927f1b466e8cdb630d70786db07bee7599bfa5153060afd3"
         autoupdate.strategy = "latest_github_release"
         autoupdate.version_regex = "jdk-(\\d+\\.\\d+\\.\\d+)\\+(.*)"
         autoupdate.upstream = "https://github.com/adoptium/temurin21-binaries"
