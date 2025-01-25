@@ -5,7 +5,9 @@ No se debe editar a mano.
 
 # Penpot para Yunohost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/penpot.svg)](https://ci-apps.yunohost.org/ci/apps/penpot/) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/penpot.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/penpot.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/penpot)](https://ci-apps.yunohost.org/ci/apps/penpot/)
+![Estado funcional](https://apps.yunohost.org/badge/state/penpot)
+![Estado En Mantención](https://apps.yunohost.org/badge/maintained/penpot)
 
 [![Instalar Penpot con Yunhost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=penpot)
 
@@ -18,7 +20,7 @@ No se debe editar a mano.
 
 Design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, web based and works with open standards (SVG). Penpot invites designers all over the world to fall in love with open source while getting developers excited about the design process in return.
 
-**Versión actual:** 2.2.0~ynh1
+**Versión actual:** 2.4.1~ynh1
 
 ## Capturas
 

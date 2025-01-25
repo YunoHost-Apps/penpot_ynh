@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # Penpot untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/penpot.svg)](https://ci-apps.yunohost.org/ci/apps/penpot/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/penpot.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/penpot.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/penpot)](https://ci-apps.yunohost.org/ci/apps/penpot/)
+![Status kerja](https://apps.yunohost.org/badge/state/penpot)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/penpot)
 
 [![Pasang Penpot dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=penpot)
 
@@ -18,7 +20,7 @@ Ini TIDAK boleh diedit dengan tangan.
 
 Design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, web based and works with open standards (SVG). Penpot invites designers all over the world to fall in love with open source while getting developers excited about the design process in return.
 
-**Versi terkirim:** 2.2.0~ynh1
+**Versi terkirim:** 2.4.1~ynh1
 
 ## Tangkapan Layar
 
