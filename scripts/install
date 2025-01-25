@@ -17,7 +17,6 @@ ynh_app_setting_set --key=main_domain --value=$main_domain
 
 ynh_script_progression "Installing dependencies..."
 
-# Install Nodejs
 ynh_nodejs_install
 
 ynh_setup_source --dest_dir="$install_dir/jdk" --source_id="jdk"
@@ -38,8 +37,6 @@ ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka"
 export PATH=$JAVA_HOME/bin:$install_dir/clojure/bin:$install_dir/babashka:$PATH
 
 #=================================================
-# APP "BUILD" (DEPLOYING SOURCES, VENV, COMPILING ETC)
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression "Setting up source files..."
@@ -53,9 +50,9 @@ ynh_script_progression "Building frontend..."
 
 pushd $install_dir/build/frontend
     ynh_hide_warnings env node_load_PATH  corepack enable
-    ynh_hide_warnings ynh_exec_as_app node_load_PATH  corepack enable
-    ynh_hide_warnings ynh_exec_as_app node_load_PATH  corepack prepare --activate
-    ynh_hide_warnings ynh_exec_as_app node_load_PATH NODE_ENV=production  yarn install --immutable
+    ynh_hide_warnings ynh_exec_as_app corepack enable
+    ynh_hide_warnings ynh_exec_as_app corepack prepare --activate
+    ynh_hide_warnings ynh_exec_as_app NODE_ENV=production yarn install --immutable
 
     ynh_hide_warnings ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn run build:app:assets
     # ynh_exec_warn_less ynh_exec_as $app env PATH=$node_PATH:$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:storybook
@@ -102,8 +99,8 @@ chmod -R 700 $install_dir/backend
 ynh_script_progression "Building exporter..."
 
 pushd $install_dir/build/exporter
-    ynh_hide_warnings ynh_exec_as_app node_load_PATH corepack prepare --activate
-    ynh_hide_warnings ynh_exec_as_app node_load_PATH yarn install --immutable
+    ynh_hide_warnings ynh_exec_as_app corepack prepare --activate
+    ynh_hide_warnings ynh_exec_as_app yarn install --immutable
     ynh_safe_rm "target"
     ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main
     cp yarn.lock target/
@@ -121,9 +118,9 @@ chmod -R 700 $install_dir/exporter
 ynh_safe_rm $install_dir/.cache
 
 pushd $install_dir/exporter
-    ynh_hide_warnings ynh_exec_as_app node_load_PATH corepack prepare --activate
-    ynh_exec_as_app node_load_PATH NODE_ENV=production yarn install --immutable
-    ynh_exec_as_app node_load_PATH NODE_ENV=production yarn run playwright install chromium
+    ynh_hide_warnings ynh_exec_as_app corepack prepare --activate
+    ynh_exec_as_app NODE_ENV=production yarn install --immutable
+    ynh_exec_as_app NODE_ENV=production yarn run playwright install chromium
 popd
 
 ynh_script_progression "Cleaning up..."
@@ -145,10 +142,8 @@ ynh_safe_rm $install_dir/.cache/node
 #=================================================
 ynh_script_progression "Adding system configurations related to $app..."
 
-# Create a dedicated NGINX config using the conf/nginx.conf template
 ynh_config_add_nginx
 
-# Create a dedicated systemd config
 ynh_config_add_systemd --template="backend.service" --service="$app-backend"
 yunohost service add $app-backend --log="/var/log/$app/$app-backend.log"
 
@@ -158,8 +153,6 @@ yunohost service add $app-exporter --log="/var/log/$app/$app-exporter.log"
 ynh_config_add_logrotate "/var/log/$app/$app-backend.log"
 ynh_config_add_logrotate "/var/log/$app/$app-exporter.log"
 
-#=================================================
-# APP INITIAL CONFIGURATION
 #=================================================
 # ADD A CONFIGURATION
 #=================================================
@@ -179,7 +172,6 @@ ynh_config_add --template="exporter.env" --destination="$install_dir/exporter/.e
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-# Start a systemd service
 ynh_systemctl --service=$app-backend --action="start" --log_path="/var/log/$app/$app-backend.log" --wait_until="welcome to penpot"
 
 ynh_systemctl --service=$app-exporter --action="start" --log_path="/var/log/$app/$app-exporter.log" --wait_until="redis connection established"
@@ -187,4 +179,5 @@ ynh_systemctl --service=$app-exporter --action="start" --log_path="/var/log/$app
 #=================================================
 # END OF SCRIPT
 #=================================================
+
 ynh_script_progression "Installation of $app completed"

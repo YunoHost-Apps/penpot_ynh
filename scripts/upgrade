@@ -4,8 +4,6 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-
-#=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
 
@@ -13,14 +11,10 @@ ynh_systemctl --service=$app-backend --action="stop"
 ynh_systemctl --service=$app-exporter --action="stop"
 
 #=================================================
-# "REBUILD" THE APP (DEPLOY NEW SOURCES, RERUN NPM BUILD...)
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-
 ynh_script_progression "Installing dependencies..."
 
-# Install Nodejs
 ynh_nodejs_install
 
 ynh_setup_source --dest_dir="$install_dir/jdk" --source_id="jdk"
@@ -48,15 +42,12 @@ ynh_script_progression "Building frontend..."
 
 pushd $install_dir/build/frontend
     ynh_hide_warnings env node_load_PATH  corepack enable
-    ynh_hide_warnings ynh_exec_as_app node_load_PATH  corepack enable
-    ynh_hide_warnings ynh_exec_as_app node_load_PATH  corepack prepare --activate
-    ynh_hide_warnings ynh_exec_as_app node_load_PATH NODE_ENV=production  yarn install --immutable
-
-    # ynh_hide_warnings
-
+    ynh_hide_warnings ynh_exec_as_app corepack enable
+    ynh_hide_warnings ynh_exec_as_app corepack prepare --activate
+    ynh_hide_warnings ynh_exec_as_app NODE_ENV=production  yarn install --immutable
     ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
 
-    ynh_hide_warnings ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn run build:app:assets
+    ynh_hide_warnings ynh_exec_as_app NODE_ENV=production yarn run build:app:assets
     #ynh_exec_warn_less ynh_exec_as $app env PATH=$node_PATH:$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:storybook
 
     ynh_replace --match="%version%" --replace="$version" --file="$install_dir/build/frontend/resources/public/index.html"
@@ -100,8 +91,8 @@ chmod -R 700 $install_dir/backend
 ynh_script_progression "Building exporter..."
 
 pushd $install_dir/build/exporter
-    ynh_hide_warnings ynh_exec_as_app node_load_PATH corepack prepare --activate
-    ynh_hide_warnings ynh_exec_as_app node_load_PATH yarn install --immutable
+    ynh_hide_warnings ynh_exec_as_app corepack prepare --activate
+    ynh_hide_warnings ynh_exec_as_app yarn install --immutable
     ynh_safe_rm "target"
     ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main
     cp yarn.lock target/
@@ -120,9 +111,9 @@ chmod -R 700 $install_dir/exporter
 ynh_safe_rm $install_dir/.cache
 
 pushd $install_dir/exporter
-ynh_hide_warnings ynh_exec_as_app node_load_PATH corepack prepare --activate
-ynh_exec_as_app node_load_PATH NODE_ENV=production yarn install --immutable
-ynh_exec_as_app node_load_PATH NODE_ENV=production yarn run playwright install chromium
+ynh_hide_warnings ynh_exec_as_app corepack prepare --activate
+ynh_exec_as_app NODE_ENV=production yarn install --immutable
+ynh_exec_as_app NODE_ENV=production yarn run playwright install chromium
 popd
 
 ynh_script_progression "Cleaning up..."
@@ -155,8 +146,6 @@ yunohost service add $app-exporter --log="/var/log/$app/$app-exporter.log"
 ynh_config_add_logrotate "/var/log/$app/$app-backend.log"
 ynh_config_add_logrotate "/var/log/$app/$app-exporter.log"
 
-#=================================================
-# RECONFIGURE THE APP (UPDATE CONF, APPLY MIGRATIONS...)
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
