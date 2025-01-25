@@ -15,17 +15,19 @@ maintainers = ["orhtej2"]
 [upstream]
 license = "MPL-2.0"
 website = "https://penpot.app/"
-
 admindoc = "https://help.penpot.app/technical-guide/"
 userdoc = "https://help.penpot.app/user-guide/"
 code = "https://github.com/penpot/penpot"
 
 [integration]
-yunohost = '>= 11.2.12'
+yunohost = '>= 12.0.9'
+helpers_version = "2.1"
 architectures = ["amd64", "arm64"]
 multi_instance = true
+
 ldap = false
 sso = false
+
 disk = "500M"
 ram.build = "1500M"
 ram.runtime = "500M"
@@ -73,6 +75,7 @@ ram.runtime = "500M"
     allow_email = true
 
     [resources.install_dir]
+    group = "www-data:r-x"
 
     [resources.data_dir]
     subdirs = ["assets"]

@@ -1,210 +1,176 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
-
-upgrade_type=$(ynh_check_app_version_changed)
-
-#=================================================
-# STANDARD UPGRADE STEPS
-#=================================================
 
 #=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
 
-ynh_systemd_action --service_name=$app-backend --action="stop"
-ynh_systemd_action --service_name=$app-exporter --action="stop"
+ynh_systemctl --service=$app-backend --action="stop"
+ynh_systemctl --service=$app-exporter --action="stop"
 
-#=================================================
-# "REBUILD" THE APP (DEPLOY NEW SOURCES, RERUN NPM BUILD...)
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
+ynh_script_progression "Installing dependencies..."
 
-ynh_script_progression --message="Installing dependencies..." --weight=10
+ynh_nodejs_install
 
-# Install Nodejs
-ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
-ynh_use_nodejs
+ynh_setup_source --dest_dir="$install_dir/jdk" --source_id="jdk"
+export JAVA_HOME=$install_dir/jdk
 
-if [ "$upgrade_type" == "UPGRADE_APP" ]
-then
-    ynh_setup_source --dest_dir="$install_dir/jdk" --source_id="jdk"
-    export JAVA_HOME=$install_dir/jdk
+tmp_dir=$(mktemp -d)
 
-    chown -R $app:www-data "$install_dir"
-    tmp_dir=$(mktemp -d)
+pushd $tmp_dir
+    curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
+    chmod +x linux-install.sh
+    ynh_hide_warnings ./linux-install.sh -p $install_dir/clojure
+popd
 
-    pushd $tmp_dir
-        curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
-        chmod +x linux-install.sh
-        ynh_exec_warn_less ./linux-install.sh -p $install_dir/clojure
-    popd
+ynh_safe_rm $tmp_dir
 
-    ynh_secure_remove --file=$tmp_dir
+ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka"
 
-    ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka"
+export PATH=$JAVA_HOME/bin:$install_dir/clojure/bin:$install_dir/babashka:$PATH
 
-    export PATH=$JAVA_HOME/bin:$install_dir/clojure/bin:$install_dir/babashka:$PATH
+ynh_script_progression "Upgrading source files..."
 
-    ynh_script_progression --message="Upgrading source files..."
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source --dest_dir="$install_dir/build"
+ynh_script_progression "Building frontend..."
 
-    # Download, check integrity, uncompress and patch the source from app.src
-    ynh_setup_source --dest_dir="$install_dir/build"
-    chmod -R o-rwx "$install_dir"
-    chown -R $app:www-data "$install_dir"
+pushd $install_dir/build/frontend
+    ynh_hide_warnings env node_load_PATH  corepack enable
+    ynh_hide_warnings ynh_exec_as_app corepack enable
+    ynh_hide_warnings ynh_exec_as_app corepack prepare --activate
+    ynh_hide_warnings ynh_exec_as_app NODE_ENV=production  yarn install --immutable
+    ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
 
-    ynh_script_progression --message="Building frontend..." --weight=5
+    ynh_hide_warnings ynh_exec_as_app NODE_ENV=production yarn run build:app:assets
+    #ynh_exec_warn_less ynh_exec_as $app env PATH=$node_PATH:$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:storybook
 
-    pushd $install_dir/build/frontend
-        ynh_exec_warn_less env $ynh_node_load_PATH COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack enable
-        ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack enable
-        ynh_exec_warn_less ynh_exec_as "$app" env $ynh_node_load_PATH COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack prepare --activate
-        ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install --immutable
-        
-        # ynh_exec_warn_less 
-        ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -J-Xms100M -J-Xmx800M -J-XX:+UseSerialGC -M:dev:shadow-cljs release main --config-merge "{:release-version \"${current_hash}\"}"
+    ynh_replace --match="%version%" --replace="$version" --file="$install_dir/build/frontend/resources/public/index.html"
+    ynh_replace --match="%buildDate%" --replace="$build_date" --file="$install_dir/build/frontend/resources/public/index.html"
+popd
 
-        ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn run build:app:assets
-        #ynh_exec_warn_less ynh_exec_as $app env PATH=$node_PATH:$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:storybook
+ynh_safe_rm $install_dir/frontend
+mkdir -p $install_dir/frontend
+mv $install_dir/build/frontend/resources/public/* $install_dir/frontend
+#mv $install_dir/build/frontend/storybook-static $install_dir/frontend
+chown -R $app:www-data $install_dir/frontend
+chmod -R 755 $install_dir/frontend
 
-        ynh_replace_string --match_string="%version%" --replace_string="$version" --target_file="$install_dir/build/frontend/resources/public/index.html"
-        ynh_replace_string --match_string="%buildDate%" --replace_string="$build_date" --target_file="$install_dir/build/frontend/resources/public/index.html"
-    popd
+ynh_script_progression "Building backend..."
 
-    ynh_secure_remove --file=$install_dir/frontend
-    mkdir -p $install_dir/frontend
-    mv $install_dir/build/frontend/resources/public/* $install_dir/frontend
-    #mv $install_dir/build/frontend/storybook-static $install_dir/frontend
-    chown -R $app:www-data $install_dir/frontend
-    chmod -R 755 $install_dir/frontend
+pushd $install_dir/build/backend
+    mkdir -p target/classes;
+    mkdir -p target/dist;
+    echo "$version" > target/classes/version.txt;
+    cp ../CHANGES.md target/classes/changelog.md;
+    chown -R $app:$app target
 
-    ynh_script_progression --message="Building backend..." --weight=5
+    ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -T:build jar;
+    mv target/penpot.jar target/dist/penpot.jar
+    cp resources/log4j2.xml target/dist/log4j2.xml
+    cp scripts/run.template.sh target/dist/run.sh
+    chmod +x target/dist/run.sh;
 
-    pushd $install_dir/build/backend
-        mkdir -p target/classes;
-        mkdir -p target/dist;
-        echo "$version" > target/classes/version.txt;
-        cp ../CHANGES.md target/classes/changelog.md;
-        chown -R $app:$app target
+    # Prefetch templates
+    mkdir builtin-templates;
+    bb ./scripts/prefetch-templates.clj resources/app/onboarding.edn builtin-templates/
+    cp -r builtin-templates target/dist/
+popd
 
-        ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -T:build jar;
-        mv target/penpot.jar target/dist/penpot.jar
-        cp resources/log4j2.xml target/dist/log4j2.xml
-        cp scripts/run.template.sh target/dist/run.sh
-        chmod +x target/dist/run.sh;
+ynh_safe_rm $install_dir/backend
+mkdir -p $install_dir/backend
+mv $install_dir/build/backend/target/dist/* $install_dir/backend
+chown -R $app:$app $install_dir/backend
+chmod -R 700 $install_dir/backend
 
-        # Prefetch templates
-        mkdir builtin-templates;
-        bb ./scripts/prefetch-templates.clj resources/app/onboarding.edn builtin-templates/
-        cp -r builtin-templates target/dist/
-    popd
+ynh_script_progression "Building exporter..."
 
-    ynh_secure_remove --file=$install_dir/backend
-    mkdir -p $install_dir/backend
-    mv $install_dir/build/backend/target/dist/* $install_dir/backend
-    chown -R $app:$app $install_dir/backend
-    chmod -R 700 $install_dir/backend
+pushd $install_dir/build/exporter
+    ynh_hide_warnings ynh_exec_as_app corepack prepare --activate
+    ynh_hide_warnings ynh_exec_as_app yarn install --immutable
+    ynh_safe_rm "target"
+    ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main
+    cp yarn.lock target/
+    cp package.json target/
 
-    ynh_script_progression --message="Building exporter..." --weight=5
+    ynh_replace --match="%version%" --replace="$version" --file="$install_dir/build/exporter/target/app.js"
+popd
 
-    pushd $install_dir/build/exporter
-        ynh_exec_warn_less ynh_exec_as "$app" env $ynh_node_load_PATH corepack prepare --activate
-        ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH yarn install --immutable
-        ynh_secure_remove --file="target"
-        ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main
-        cp yarn.lock target/
-        cp package.json target/
-        
-        ynh_replace_string --match_string="%version%" --replace_string="$version" --target_file="$install_dir/build/exporter/target/app.js"
-    popd
+ynh_safe_rm $install_dir/exporter
+mkdir -p $install_dir/exporter
+mv $install_dir/build/exporter/target/* $install_dir/exporter
+cp $install_dir/build/.yarnrc.yml $install_dir/exporter
+chown -R $app:$app $install_dir/exporter
+chmod -R 700 $install_dir/exporter
 
-    ynh_secure_remove --file=$install_dir/exporter
-    mkdir -p $install_dir/exporter
-    mv $install_dir/build/exporter/target/* $install_dir/exporter
-    cp $install_dir/build/.yarnrc.yml $install_dir/exporter
-    chown -R $app:$app $install_dir/exporter
-    chmod -R 700 $install_dir/exporter
+ynh_safe_rm $install_dir/.cache
 
-    ynh_secure_remove --file=$install_dir/.cache
+pushd $install_dir/exporter
+ynh_hide_warnings ynh_exec_as_app corepack prepare --activate
+ynh_exec_as_app NODE_ENV=production yarn install --immutable
+ynh_exec_as_app NODE_ENV=production yarn run playwright install chromium
+popd
 
-    pushd $install_dir/exporter
-    ynh_exec_warn_less ynh_exec_as "$app" env $ynh_node_load_PATH corepack prepare --activate
-    ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn install --immutable
-    ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production yarn run playwright install chromium
-    popd
+ynh_script_progression "Cleaning up..."
 
-    ynh_script_progression --message="Cleaning up..." --weight=1
-
-    ynh_secure_remove --file=$install_dir/.npm
-    ynh_secure_remove --file=$install_dir/.yarn
-    ynh_secure_remove --file=$install_dir/build
-    ynh_secure_remove --file=$install_dir/.m2
-    ynh_secure_remove --file=$install_dir/.clojure
-    ynh_secure_remove --file=$install_dir/clojure
-    ynh_secure_remove --file=$install_dir/babashka
-    ynh_secure_remove --file=$install_dir/.cache/ms-playwright/firefox-*
-    ynh_secure_remove --file=$install_dir/.cache/ms-playwright/webkit-*
-    ynh_secure_remove --file=$install_dir/.cache/yarn
-    ynh_secure_remove --file=$install_dir/.cache/node
-fi
+ynh_safe_rm $install_dir/.npm
+ynh_safe_rm $install_dir/.yarn
+ynh_safe_rm $install_dir/build
+ynh_safe_rm $install_dir/.m2
+ynh_safe_rm $install_dir/.clojure
+ynh_safe_rm $install_dir/clojure
+ynh_safe_rm $install_dir/babashka
+ynh_safe_rm $install_dir/.cache/ms-playwright/firefox-*
+ynh_safe_rm $install_dir/.cache/ms-playwright/webkit-*
+ynh_safe_rm $install_dir/.cache/yarn
+ynh_safe_rm $install_dir/.cache/node
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading system configurations related to $app..."
+ynh_script_progression "Upgrading system configurations related to $app..."
 
-ynh_add_nginx_config
+ynh_config_add_nginx
 
-ynh_add_systemd_config --template="backend.service" --service="$app-backend"
+ynh_config_add_systemd --template="backend.service" --service="$app-backend"
 yunohost service add $app-backend --log="/var/log/$app/$app-backend.log"
 
-ynh_add_systemd_config --template="exporter.service" --service="$app-exporter"
+ynh_config_add_systemd --template="exporter.service" --service="$app-exporter"
 yunohost service add $app-exporter --log="/var/log/$app/$app-exporter.log"
 
-ynh_use_logrotate --non-append --logfile="/var/log/$app/$app-backend.log"
-ynh_use_logrotate --logfile="/var/log/$app/$app-exporter.log"
+ynh_config_add_logrotate "/var/log/$app/$app-backend.log"
+ynh_config_add_logrotate "/var/log/$app/$app-exporter.log"
 
-#=================================================
-# RECONFIGURE THE APP (UPDATE CONF, APPLY MIGRATIONS...)
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Updating database configuration..."
-ynh_psql_execute_as_root --sql="CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";" --database=$db_name
+ynh_script_progression "Updating database configuration..."
+ynh_psql_db_shell <<< "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";"
 
-ynh_script_progression --message="Updating a configuration file..."
+ynh_script_progression "Updating configuration..."
 
-ynh_add_config --template="config.js" --destination="$install_dir/frontend/js/config.js"
-chmod 755 "$install_dir/frontend/js/config.js"
-chown $app:www-data "$install_dir/frontend/js/config.js"
+ynh_config_add --template="config.js" --destination="$install_dir/frontend/js/config.js"
 
-ynh_add_config --template="environ" --destination="$install_dir/backend/environ"
-chmod 400 "$install_dir/backend/environ"
-chown $app:$app "$install_dir/backend/environ"
+ynh_config_add --template="environ" --destination="$install_dir/backend/environ"
 
-ynh_add_config --template="exporter.env" --destination="$install_dir/exporter/.env"
-chmod 400 "$install_dir/exporter/.env"
-chown $app:$app "$install_dir/exporter/.env"
+ynh_config_add --template="exporter.env" --destination="$install_dir/exporter/.env"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..."
+ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemd_action --service_name=$app-backend --action="start" --log_path="/var/log/$app/$app-backend.log" --line_match="welcome to penpot"
+ynh_systemctl --service=$app-backend --action="start" --log_path="/var/log/$app/$app-backend.log" --wait_until="welcome to penpot"
 
-ynh_systemd_action --service_name=$app-exporter --action="start" --log_path="/var/log/$app/$app-exporter.log" --line_match="redis connection established"
+ynh_systemctl --service=$app-exporter --action="start" --log_path="/var/log/$app/$app-exporter.log" --wait_until="redis connection established"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --last
+ynh_script_progression "Upgrade of $app completed"
