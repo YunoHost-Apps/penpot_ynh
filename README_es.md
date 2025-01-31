@@ -5,7 +5,9 @@ No se debe editar a mano.
 
 # Penpot para Yunohost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/penpot.svg)](https://ci-apps.yunohost.org/ci/apps/penpot/) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/penpot.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/penpot.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/penpot)](https://ci-apps.yunohost.org/ci/apps/penpot/)
+![Estado funcional](https://apps.yunohost.org/badge/state/penpot)
+![Estado En Mantención](https://apps.yunohost.org/badge/maintained/penpot)
 
 [![Instalar Penpot con Yunhost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=penpot)
 
@@ -35,7 +37,7 @@ Design and prototyping platform meant for cross-domain teams. Non dependent on o
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/penpot_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/penpot_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 

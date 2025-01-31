@@ -5,7 +5,9 @@ Il NE doit PAS être modifié à la main.
 
 # Penpot pour YunoHost
 
-[![Niveau d’intégration](https://dash.yunohost.org/integration/penpot.svg)](https://ci-apps.yunohost.org/ci/apps/penpot/) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/penpot.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/penpot.maintain.svg)
+[![Niveau d’intégration](https://apps.yunohost.org/badge/integration/penpot)](https://ci-apps.yunohost.org/ci/apps/penpot/)
+![Statut du fonctionnement](https://apps.yunohost.org/badge/state/penpot)
+![Statut de maintenance](https://apps.yunohost.org/badge/maintained/penpot)
 
 [![Installer Penpot avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=penpot)
 

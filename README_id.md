@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # Penpot untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/penpot.svg)](https://ci-apps.yunohost.org/ci/apps/penpot/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/penpot.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/penpot.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/penpot)](https://ci-apps.yunohost.org/ci/apps/penpot/)
+![Status kerja](https://apps.yunohost.org/badge/state/penpot)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/penpot)
 
 [![Pasang Penpot dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=penpot)
 

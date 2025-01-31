@@ -5,7 +5,9 @@
 
 # YunoHost 上的 Penpot
 
-[![集成程度](https://dash.yunohost.org/integration/penpot.svg)](https://ci-apps.yunohost.org/ci/apps/penpot/) ![工作状态](https://ci-apps.yunohost.org/ci/badges/penpot.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/penpot.maintain.svg)
+[![集成程度](https://apps.yunohost.org/badge/integration/penpot)](https://ci-apps.yunohost.org/ci/apps/penpot/)
+![工作状态](https://apps.yunohost.org/badge/state/penpot)
+![维护状态](https://apps.yunohost.org/badge/maintained/penpot)
 
 [![使用 YunoHost 安装 Penpot](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=penpot)
 
