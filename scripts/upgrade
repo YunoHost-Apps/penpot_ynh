@@ -72,7 +72,7 @@ pushd $install_dir/build/frontend
     ynh_exec_warn_less ynh_exec_as "$app" env $ynh_node_load_PATH COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack prepare --activate
     ynh_exec_warn_less ynh_exec_as $app env $ynh_node_load_PATH NODE_ENV=production COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install --immutable
     
-    ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:app:main --config-merge "{:release-version \"${current_hash}-${TS}\"}"
+    ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:app:main --config-merge "{:release-version \"${current_hash}-${TS}\"}" -J-Xms100M -J-Xmx1200M -J-XX:+UseSerialGC
     ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:wasm
     ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:app:libs
     ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:app:assets
