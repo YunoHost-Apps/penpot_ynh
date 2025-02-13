@@ -50,7 +50,9 @@ ynh_secure_remove --file=$tmp_dir
 
 ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka"
 
-export PATH=$JAVA_HOME/bin:$install_dir/clojure/bin:$install_dir/babashka:$node_PATH
+ynh_exec_warn_less ynh_exec_as $app RUSTUP_HOME="$install_dir"/.rustup CARGO_HOME="$install_dir"/.cargo bash -c 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -q -y'
+
+export PATH=$install_dir/.cargo/bin:$JAVA_HOME/bin:$install_dir/clojure/bin:$install_dir/babashka:$node_PATH
 
 export TS=$(date +%s)
 export BUILD_DATE=$(date -R)
@@ -160,6 +162,8 @@ ynh_secure_remove --file=$install_dir/.cache/ms-playwright/firefox-*
 ynh_secure_remove --file=$install_dir/.cache/ms-playwright/webkit-*
 ynh_secure_remove --file=$install_dir/.cache/yarn
 ynh_secure_remove --file=$install_dir/.cache/node
+ynh_secure_remove --file=$install_dir/.cargo
+ynh_secure_remove --file=$install_dir/.rustup
 
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
