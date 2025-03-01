@@ -13,8 +13,8 @@ source /usr/share/yunohost/helpers
 #=================================================
 # RESTORE THE APP MAIN DIR
 #=================================================
-
 ynh_script_progression --message="Restoring NodeJS..." --weight=2
+
 ynh_exec_warn_less ynh_install_nodejs --nodejs_version=$nodejs_version
 
 ynh_script_progression --message="Restoring the app main directory..." --weight=1
@@ -38,7 +38,6 @@ chown -R $app:www-data "$data_dir"
 #=================================================
 # RESTORE THE POSTGRESQL DATABASE
 #=================================================
-
 ynh_script_progression --message="Restoring the PostgreSQL database..." --weight=1
 
 ynh_psql_connect_as --user=$db_user --password=$db_pwd --database=$db_name < ./db.sql
