@@ -5,10 +5,13 @@
 #=================================================
 # IMPORT GENERIC HELPERS
 #=================================================
+
 source _common.sh
 source /usr/share/yunohost/helpers
 
-
+#=================================================
+# INITIALIZE AND STORE SETTINGS
+#=================================================
 
 redis_db=$(ynh_redis_get_free_db)
 secret_key=$(ynh_string_random --length=40)
@@ -21,7 +24,6 @@ ynh_app_setting_set --app=$app --key=main_domain --value=$main_domain
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
-
 ynh_script_progression --message="Installing dependencies..." --weight=10
 
 # Install Nodejs
@@ -183,6 +185,7 @@ ynh_use_logrotate --logfile="/var/log/$app/$app-exporter.log"
 # ADD A CONFIGURATION
 #=================================================
 ynh_script_progression --message="Updating database configuration..."
+
 ynh_psql_execute_as_root --sql="CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";" --database=$db_name
 
 ynh_script_progression --message="Adding app's configuration file..."
@@ -212,4 +215,5 @@ ynh_systemd_action --service_name=$app-exporter --action="start" --log_path="/va
 #=================================================
 # END OF SCRIPT
 #=================================================
+
 ynh_script_progression --message="Installation of $app completed" --last

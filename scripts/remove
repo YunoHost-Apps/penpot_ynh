@@ -5,6 +5,7 @@
 #=================================================
 # IMPORT GENERIC HELPERS
 #=================================================
+
 source _common.sh
 source /usr/share/yunohost/helpers
 
@@ -33,8 +34,6 @@ fi
 ynh_remove_nginx_config
 
 ynh_remove_logrotate
-
-
 
 ynh_redis_remove_db "$redis_db"
 
