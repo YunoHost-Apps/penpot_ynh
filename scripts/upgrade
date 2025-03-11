@@ -53,16 +53,20 @@ ynh_exec_warn_less ynh_exec_as $app RUSTUP_HOME="$install_dir"/.rustup CARGO_HOM
 export TS=$(date +%s)
 export BUILD_DATE=$(date -R)
 
-ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka"
-
 ynh_setup_source --dest_dir="$install_dir/emsdk" --source_id="emsdk"
+chown -R $app:app "$install_dir/emsdk"
+chmod -R u+rwx "$install_dir/emsdk"
 
 pushd $install_dir/emsdk
   ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production ./emsdk install latest
   ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production ./emsdk activate latest
 popd
 
-export PATH=$install_dir/.cargo/bin:$JAVA_HOME/bin:$install_dir/clojure/bin:$install_dir/babashka:$node_PATH
+. $install_dir/emsdk/emsdk_env.sh
+export PATH=$install_dir/.cargo/bin:$JAVA_HOME/bin:$install_dir/clojure/bin:$install_dir/babashka:$node_PATH:$PATH
+
+ynh_exec_warn_less ynh_exec_as $app env PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production rustup target add wasm32-unknown-emscripten
+
 
 ynh_script_progression --message="Upgrading source files..."
 
