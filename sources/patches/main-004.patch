@@ -1,0 +1,38 @@
+From 680f8d3a76ce6dd34bd21d81fa6465b0675de84e Mon Sep 17 00:00:00 2001
+From: orhtej2 <2871798+orhtej2@users.noreply.github.com>
+Date: Thu, 13 Mar 2025 15:18:24 +0100
+Subject: Increase timeouts in export
+
+---
+ exporter/src/app/browser.cljs | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/exporter/src/app/browser.cljs b/exporter/src/app/browser.cljs
+index 46330ce..8fb2309 100644
+--- a/exporter/src/app/browser.cljs
++++ b/exporter/src/app/browser.cljs
+@@ -49,7 +49,7 @@
+ 
+ (defn wait-for
+   ([locator] (wait-for locator nil))
+-  ([locator {:keys [state timeout] :or {state "visible" timeout 10000}}]
++  ([locator {:keys [state timeout] :or {state "visible" timeout 30000}}]
+    (.waitFor ^js locator #js {:state state :timeout timeout})))
+ 
+ (defn screenshot
+@@ -128,9 +128,9 @@
+                   :testOnBorrow true
+                   :evictionRunIntervalMillis 5000
+                   :numTestsPerEvictionRun 5
+-                  ;; :acquireTimeoutMillis 120000 ; 2min
+-                  :acquireTimeoutMillis 10000 ; 10 s
+-                  :idleTimeoutMillis 10000}]
++                  :acquireTimeoutMillis 120000 ; 2min
++                  ;; :acquireTimeoutMillis 10000 ; 10 s
++                  :idleTimeoutMillis 20000}]
+ 
+     (l/info :hint "initializing browser pool" :opts opts)
+     (reset! pool (gp/createPool browser-pool-factory opts))
+-- 
+2.39.5
+
