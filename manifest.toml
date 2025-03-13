@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.4.3~ynh2"
+version = "2.5.2~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -44,8 +44,8 @@ ram.runtime = "500M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/penpot/penpot/archive/refs/tags/2.4.3.tar.gz"
-    sha256 = "f4e30601490d09196d92e80fed66af859176324421c9b398a3c1e5b3bbd44576"
+    url = "https://github.com/penpot/penpot/archive/refs/tags/2.5.2.tar.gz"
+    sha256 = "1ff32a5a7e3c414894802beadd07e54845119a2c4cda97549184fc84d727729f"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.sources.jdk]
@@ -69,6 +69,11 @@ ram.runtime = "500M"
     autoupdate.upstream = "https://github.com/babashka/babashka"
     autoupdate.asset.amd64 = "babashka-.*-linux-amd64-static\\.tar\\.gz$"
     autoupdate.asset.arm64 = "babashka-.*-linux-aarch64-static\\.tar\\.gz$"
+
+    [resources.sources.emsdk]
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.4.tar.gz"
+    sha256 = "26ddc0d97ca31df5f3e77edfb5b26a9212865c5241a270182fc3b7a64b1db455"
+    autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
     allow_email = true

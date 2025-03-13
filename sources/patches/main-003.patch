@@ -1,0 +1,27 @@
+From 0ed5197594f50f24ee58ec528f8b932a6103918d Mon Sep 17 00:00:00 2001
+From: orhtej2 <2871798+orhtej2@users.noreply.github.com>
+Date: Tue, 11 Mar 2025 21:50:53 +0100
+Subject: [PATCH 2/2] Fix cargo and emsdk refs
+
+---
+ render-wasm/_build_env | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/render-wasm/_build_env b/render-wasm/_build_env
+index 3c7abb2..42ebc04 100644
+--- a/render-wasm/_build_env
++++ b/render-wasm/_build_env
+@@ -19,8 +19,8 @@ export EMCC_CFLAGS="--no-entry \
+     -sEXPORTED_RUNTIME_METHODS=GL,stringToUTF8 \
+     -sEXPORT_ES6=1"
+ 
+-EMSDK_QUIET=1 . /usr/local/emsdk/emsdk_env.sh;
+-. /usr/local/cargo/env
++EMSDK_QUIET=1 . ~/emsdk/emsdk_env.sh;
++. ~/.cargo/env
+ 
+ export EM_CACHE="/tmp/emsdk_cache";
+ 
+-- 
+2.39.5
+
