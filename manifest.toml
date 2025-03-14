@@ -71,8 +71,9 @@ ram.runtime = "500M"
     autoupdate.asset.arm64 = "babashka-.*-linux-aarch64-static\\.tar\\.gz$"
 
     [resources.sources.emsdk]
-    url = "https://github.com/penpot/penpot/archive/refs/tags/2.5.3.tar.gz"
-    sha256 = "835208a35df810a882fa5270a7804c145bdfe2d986aab82f6e18e4f374c79049"
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.4.tar.gz"
+    sha256 = "26ddc0d97ca31df5f3e77edfb5b26a9212865c5241a270182fc3b7a64b1db455"
+    autoupdate.upstream = "https://github.com/emscripten-core/emsdk"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.system_user]
