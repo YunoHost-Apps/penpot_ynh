@@ -20,7 +20,7 @@ EZ editatu eskuz.
 
 Design and prototyping platform meant for cross-domain teams. Non dependent on operating systems, web based and works with open standards (SVG). Penpot invites designers all over the world to fall in love with open source while getting developers excited about the design process in return.
 
-**Paketatutako bertsioa:** 2.5.4~ynh1
+**Paketatutako bertsioa:** 2.5.4~ynh2
 
 ## Pantaila-argazkiak
 
@@ -39,7 +39,7 @@ Design and prototyping platform meant for cross-domain teams. Non dependent on o
 
 Bidali `pull request`a [`testing` abarrera](https://github.com/YunoHost-Apps/penpot_ynh/tree/testing).
 
-`testing` abarra probatzeko, ondorengoa egin:
+`testing` abarra probatzeko, honakoa egin:
 
 ```bash
 sudo yunohost app install https://github.com/YunoHost-Apps/penpot_ynh/tree/testing --debug
