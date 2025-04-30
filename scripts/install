@@ -45,14 +45,14 @@ ynh_safe_rm $tmp_dir
 ynh_hide_warnings ynh_exec_as_app RUSTUP_HOME="$install_dir"/.rustup CARGO_HOME="$install_dir"/.cargo bash -c 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -q -y'
 
 pushd $install_dir/emsdk
-  ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production EMSDK_QUIET=1 ./emsdk install latest
-  ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production EMSDK_QUIET=1 ./emsdk activate latest
+  ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production ./emsdk install latest
+  ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production ./emsdk activate latest
 popd
 
 . $install_dir/emsdk/emsdk_env.sh
 export PATH=$install_dir/.cargo/bin:$JAVA_HOME/bin:$install_dir/clojure/bin:$install_dir/babashka:$nodejs_dir:$PATH
 
-ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production EMSDK_QUIET=1 rustup target add wasm32-unknown-emscripten
+ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production rustup target add wasm32-unknown-emscripten
 
 export TS=$(date +%s)
 export BUILD_DATE=$(date -R)
