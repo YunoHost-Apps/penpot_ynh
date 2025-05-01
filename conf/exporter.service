@@ -9,9 +9,9 @@ User=__APP__
 Group=__APP__
 
 WorkingDirectory=__INSTALL_DIR__/exporter
-ExecStart=__YNH_NODE__ --env-file=.env app.js
+ExecStart=__NODEJS_DIR__/node --env-file=.env app.js
 Restart=always
-Environment=__YNH_NODE_LOAD_PATH__
+Environment=PATH=__PATH_WITH_NODEJS__
 StandardOutput=append:/var/log/__APP__/__APP__-exporter.log 
 StandardError=inherit
 Restart=on-failure
