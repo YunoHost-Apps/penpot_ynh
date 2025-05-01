@@ -19,7 +19,8 @@ userdoc = "https://help.penpot.app/user-guide/"
 code = "https://github.com/penpot/penpot"
 
 [integration]
-yunohost = ">= 11.2.12"
+yunohost = ">= 11.2.18"
+helpers_version = "2.1"
 architectures = ["amd64", "arm64"]
 multi_instance = true
 
@@ -80,6 +81,7 @@ ram.runtime = "500M"
     allow_email = true
 
     [resources.install_dir]
+    group = "www-data:r-x"
 
     [resources.data_dir]
     subdirs = ["assets"]
