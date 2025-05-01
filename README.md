@@ -11,7 +11,7 @@ It shall NOT be edited by hand.
 Design and prototyping platform
 
 [![🌐 Official app website](https://img.shields.io/badge/Official_app_website-darkgreen?style=for-the-badge)](https://penpot.app/)
-[![Version: 2.6.2~ynh1](https://img.shields.io/badge/Version-2.6.2~ynh1-rgba(0,150,0,1)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/penpot/)
+[![Version: 2.6.2~ynh2](https://img.shields.io/badge/Version-2.6.2~ynh2-rgba(0,150,0,1)?style=for-the-badge)](https://ci-apps.yunohost.org/ci/apps/penpot/)
 
 <div align="center">
 <a href="https://apps.yunohost.org/app/penpot"><img height="100px" src="https://github.com/YunoHost/yunohost-artwork/raw/refs/heads/main/badges/neopossum-badges/badge_more_info_on_the_appstore.svg"/></a>
