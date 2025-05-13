@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source _common.sh
+source /usr/share/yunohost/helpers
+
+#=================================================
+
+ynh_app_config_apply() {
+    _ynh_app_config_apply
+    ynh_add_config --template="environ" --destination="$install_dir/backend/environ"
+    chmod 400 "$install_dir/backend/environ"
+    chown $app:$app "$install_dir/backend/environ"
+
+    ynh_systemd_action --service_name=$app-backend --action="restart" --log_path="/var/log/$app/$app-backend.log" --line_match="welcome to penpot"
+}
+
+ynh_app_config_run "$1"

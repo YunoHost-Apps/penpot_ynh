@@ -11,6 +11,8 @@ source /usr/share/yunohost/helpers
 ynh_systemctl --service=$app-backend --action="stop"
 ynh_systemctl --service=$app-exporter --action="stop"
 
+ynh_app_setting_set_default  --app=$app --key=telemetry_enabled --value=false
+
 #=================================================
 # "REBUILD" THE APP (DEPLOY NEW SOURCES, RERUN NPM BUILD...)
 #=================================================
