@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.6.2~ynh2"
+version = "2.6.2~ynh3"
 
 maintainers = ["orhtej2"]
 
@@ -72,8 +72,8 @@ ram.runtime = "500M"
     autoupdate.asset.arm64 = "babashka-.*-linux-aarch64-static\\.tar\\.gz$"
 
     [resources.sources.emsdk]
-    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.8.tar.gz"
-    sha256 = "0762712fd336ca0a8bf0c65a5093e41fea96a7cd2953fa986557be41713199a5"
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.9.tar.gz"
+    sha256 = "a5507307854f2b0997d278589f1cd82f949358f5dbde42fadc348f128a4f4c02"
     autoupdate.upstream = "https://github.com/emscripten-core/emsdk"
     autoupdate.strategy = "latest_github_tag"
 
