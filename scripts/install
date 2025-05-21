@@ -14,6 +14,7 @@ main_domain=$(yunohost domain list --output-as plain | grep -A1 -e '#main' | tai
 ynh_app_setting_set --key=redis_db --value=$redis_db
 ynh_app_setting_set --key=secret_key --value=$secret_key
 ynh_app_setting_set --key=main_domain --value=$main_domain
+ynh_app_setting_set_default --key=telemetry_enabled --value=false
 
 #=================================================
 # INSTALL DEPENDENCIES
