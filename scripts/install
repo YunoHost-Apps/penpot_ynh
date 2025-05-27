@@ -219,7 +219,7 @@ ynh_config_add --template="exporter.env" --destination="$install_dir/exporter/.e
 ynh_script_progression "Starting $app's systemd service..."
 
 # Start a systemd service
-ynh_systemctl --service=$app-backend --action="start" --log_path="/var/log/$app/$app-backend.log" --wait_until="welcome to penpot"
+ynh_systemctl --service=$app-backend --action="start" --log_path="/var/log/$app/$app-backend.log" --wait_until="welcome to penpot" --timeout=300
 
 ynh_systemctl --service=$app-exporter --action="start" --log_path="/var/log/$app/$app-exporter.log" --wait_until="redis connection established"
 
