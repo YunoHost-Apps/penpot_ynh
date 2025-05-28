@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.6.2~ynh1"
+version = "2.7.1~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -45,18 +45,18 @@ ram.runtime = "500M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/penpot/penpot/archive/refs/tags/2.6.2.tar.gz"
-    sha256 = "a1ba1355926d6840e3ff008bb5d2a30c5c4f594f2039742238d47fcf3885b226"
+    url = "https://github.com/penpot/penpot/archive/refs/tags/2.7.1.tar.gz"
+    sha256 = "77703de7f031027b4262aa3e364b423df72f5e1ab38c35ad924fff25cdf5761f"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.sources.jdk]
-    amd64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_x64_linux_hotspot_21.0.7_6.tar.gz"
-    amd64.sha256 = "974d3acef0b7193f541acb61b76e81670890551366625d4f6ca01b91ac152ce0"
-    arm64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.7%2B6/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.7_6.tar.gz"
-    arm64.sha256 = "31dba70ba928c78c20d62049ac000f79f7a7ab11f9d9c11e703f52d60aa64f93"
-    autoupdate.strategy = "latest_github_release"
+    amd64.url = "https://github.com/adoptium/temurin24-binaries/releases/download/jdk-24.0.1%2B9/OpenJDK24U-jdk_x64_linux_hotspot_24.0.1_9.tar.gz"
+    amd64.sha256 = "78832cb5ea4074f2215cde0d01d6192d09c87636fc24b36647aea61fb23b8272"
+    arm64.url = "https://github.com/adoptium/temurin24-binaries/releases/download/jdk-24.0.1%2B9/OpenJDK24U-jdk_aarch64_linux_hotspot_24.0.1_9.tar.gz"
+    arm64.sha256 = "a598260e340028d9b2383c23df16aa286769a661bd3bf28a52e8c1a5774b1110"
+    #autoupdate.strategy = "latest_github_release"
     autoupdate.version_regex = "jdk-(\\d+\\.\\d+\\.\\d+)\\+(.*)"
-    autoupdate.upstream = "https://github.com/adoptium/temurin21-binaries"
+    autoupdate.upstream = "https://github.com/adoptium/temurin24-binaries"
     autoupdate.asset.amd64 = "OpenJDK.*-jdk_x64_linux_hotspot_.*\\.tar\\.gz$"
     autoupdate.asset.arm64 = "OpenJDK.*-jdk_aarch64_linux_hotspot_.*\\.tar\\.gz$"
 
@@ -72,8 +72,8 @@ ram.runtime = "500M"
     autoupdate.asset.arm64 = "babashka-.*-linux-aarch64-static\\.tar\\.gz$"
 
     [resources.sources.emsdk]
-    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.7.tar.gz"
-    sha256 = "b7262c64f4b5f0692f3bab063cafb09682495f98355677a3f1373d0520457bad"
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.9.tar.gz"
+    sha256 = "a5507307854f2b0997d278589f1cd82f949358f5dbde42fadc348f128a4f4c02"
     autoupdate.upstream = "https://github.com/emscripten-core/emsdk"
     autoupdate.strategy = "latest_github_tag"
 

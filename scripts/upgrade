@@ -11,6 +11,8 @@ source /usr/share/yunohost/helpers
 ynh_systemctl --service=$app-backend --action="stop"
 ynh_systemctl --service=$app-exporter --action="stop"
 
+ynh_app_setting_set_default  --app=$app --key=telemetry_enabled --value=false
+
 #=================================================
 # "REBUILD" THE APP (DEPLOY NEW SOURCES, RERUN NPM BUILD...)
 #=================================================
@@ -204,7 +206,7 @@ ynh_config_add --template="exporter.env" --destination="$install_dir/exporter/.e
 #=================================================
 ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemctl --service=$app-backend --action="start" --log_path="/var/log/$app/$app-backend.log" --wait_until="welcome to penpot"
+ynh_systemctl --service=$app-backend --action="start" --log_path="/var/log/$app/$app-backend.log" --wait_until="welcome to penpot" --timeout=300
 
 ynh_systemctl --service=$app-exporter --action="start" --log_path="/var/log/$app/$app-exporter.log" --wait_until="redis connection established"
 

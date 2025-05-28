@@ -1,0 +1,10 @@
+version = "1.0"
+
+[main]
+name.en = "Penpot configuration"
+    [main.general]
+    name.en = "Telemetry"
+        [main.general.telemetry_enabled]
+        ask.en = "Enable telemetry"
+        help.en = "Sends anonymous usage statistics to Penpot developers"
+        type = "boolean"
