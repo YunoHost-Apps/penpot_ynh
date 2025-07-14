@@ -1,5 +1,5 @@
 diff --git a/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql b/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql
-index b7d05bdc7..57dc229ca 100645
+index b7d05bd..57dc229 100644
 --- a/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql
 +++ b/backend/src/app/migrations/sql/0108-mod-file-thumbnail-table.sql
 @@ -18,7 +18,8 @@ ALTER TABLE file_thumbnail
@@ -13,7 +13,7 @@ index b7d05bdc7..57dc229ca 100645
    WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
          (current_setting('rules.deletion_protection', true) IS NULL))
 diff --git a/backend/src/app/migrations/sql/0109-mod-file-tagged-object-thumbnail-table.sql b/backend/src/app/migrations/sql/0109-mod-file-tagged-object-thumbnail-table.sql
-index 3184a6576..37e77d3e1 100644
+index 3184a65..37e77d3 100644
 --- a/backend/src/app/migrations/sql/0109-mod-file-tagged-object-thumbnail-table.sql
 +++ b/backend/src/app/migrations/sql/0109-mod-file-tagged-object-thumbnail-table.sql
 @@ -19,7 +19,8 @@ ALTER TABLE file_tagged_object_thumbnail
@@ -27,7 +27,7 @@ index 3184a6576..37e77d3e1 100644
    WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
          (current_setting('rules.deletion_protection', true) IS NULL))
 diff --git a/backend/src/app/migrations/sql/0110-mod-file-media-object-table.sql b/backend/src/app/migrations/sql/0110-mod-file-media-object-table.sql
-index 49cbebc96..cbf480079 100644
+index 49cbebc..cbf4800 100644
 --- a/backend/src/app/migrations/sql/0110-mod-file-media-object-table.sql
 +++ b/backend/src/app/migrations/sql/0110-mod-file-media-object-table.sql
 @@ -20,7 +20,8 @@ ALTER TABLE file_media_object
@@ -41,7 +41,7 @@ index 49cbebc96..cbf480079 100644
    WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
          (current_setting('rules.deletion_protection', true) IS NULL))
 diff --git a/backend/src/app/migrations/sql/0112-mod-profile-table.sql b/backend/src/app/migrations/sql/0112-mod-profile-table.sql
-index 2db8d75b0..ae2f1c8fe 100644
+index 2db8d75..ae2f1c8 100644
 --- a/backend/src/app/migrations/sql/0112-mod-profile-table.sql
 +++ b/backend/src/app/migrations/sql/0112-mod-profile-table.sql
 @@ -7,7 +7,8 @@ ALTER TABLE profile
@@ -55,7 +55,7 @@ index 2db8d75b0..ae2f1c8fe 100644
    WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
          (current_setting('rules.deletion_protection', true) IS NULL))
 diff --git a/backend/src/app/migrations/sql/0113-mod-team-font-variant-table.sql b/backend/src/app/migrations/sql/0113-mod-team-font-variant-table.sql
-index b9caa08f6..b80806fb1 100644
+index b9caa08..b80806f 100644
 --- a/backend/src/app/migrations/sql/0113-mod-team-font-variant-table.sql
 +++ b/backend/src/app/migrations/sql/0113-mod-team-font-variant-table.sql
 @@ -13,7 +13,8 @@ ALTER TABLE team_font_variant
@@ -69,14 +69,17 @@ index b9caa08f6..b80806fb1 100644
    WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
          (current_setting('rules.deletion_protection', true) IS NULL))
 diff --git a/backend/src/app/migrations/sql/0114-mod-team-table.sql b/backend/src/app/migrations/sql/0114-mod-team-table.sql
-index 8c7675643..df6c17016 100644
+index 8c76756..4a873bb 100644
 --- a/backend/src/app/migrations/sql/0114-mod-team-table.sql
 +++ b/backend/src/app/migrations/sql/0114-mod-team-table.sql
-@@ -1,4 +1,5 @@
+@@ -1,5 +1,6 @@
  --- Add deletion protection
 -CREATE OR REPLACE TRIGGER deletion_protection__tgr
 +DROP TRIGGER IF EXISTS deletion_protection__tgr on team;
 +CREATE TRIGGER deletion_protection__tgr
- CREATE OR REPLACE TRIGGER deletion_protection__tgr
  BEFORE DELETE ON team FOR EACH STATEMENT
    WHEN ((current_setting('rules.deletion_protection', true) IN ('on', '')) OR
+         (current_setting('rules.deletion_protection', true) IS NULL))
+-- 
+2.39.5
+
