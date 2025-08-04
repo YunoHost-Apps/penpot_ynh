@@ -50,13 +50,13 @@ ram.runtime = "500M"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.sources.jdk]
-    amd64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_x64_linux_hotspot_21.0.8_9.tar.gz"
-    amd64.sha256 = "f2dc5418092c43003db8f9005c4a286e1c0104fea96ccdd49e8ebd037cac9219"
-    arm64.url = "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.8_9.tar.gz"
-    arm64.sha256 = "e5c41a1ab0865ea5de9b4529bf8526005f1d4593090845387d14fe450ce39c33"
+    amd64.url = "https://github.com/adoptium/temurin24-binaries/releases/download/jdk-24.0.2%2B12/OpenJDK24U-jdk_x64_linux_hotspot_24.0.2_12.tar.gz"
+    amd64.sha256 = "aea1cc55e51cf651c85f2f00ad021603fe269c4bb6493fa97a321ad770c9b096"
+    arm64.url = "https://github.com/adoptium/temurin24-binaries/releases/download/jdk-24.0.2%2B12/OpenJDK24U-jdk_aarch64_linux_hotspot_24.0.2_12.tar.gz"
+    arm64.sha256 = "6f8725d186d05c627176db9c46c732a6ef3ba41d9e9b3775c4727fc8ac642bb2"
     autoupdate.strategy = "latest_github_release"
     autoupdate.version_regex = "jdk-(\\d+\\.\\d+\\.\\d+)\\+(.*)"
-    autoupdate.upstream = "https://github.com/adoptium/temurin21-binaries"
+    autoupdate.upstream = "https://github.com/adoptium/temurin24-binaries"
     autoupdate.asset.amd64 = "OpenJDK.*-jdk_x64_linux_hotspot_.*\\.tar\\.gz$"
     autoupdate.asset.arm64 = "OpenJDK.*-jdk_aarch64_linux_hotspot_.*\\.tar\\.gz$"
 
