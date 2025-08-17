@@ -107,7 +107,6 @@ ram.runtime = "500M"
         "netpbm",
         "poppler-utils",
         "potrace",
-        "gconf-service",
         "libasound2",
         "libatk1.0-0",
         "libatk-bridge2.0-0",
@@ -118,8 +117,6 @@ ram.runtime = "500M"
         "libexpat1",
         "libfontconfig1",
         "libgcc1",
-        "libgconf-2-4",
-        "libgdk-pixbuf2.0-0",
         "libglib2.0-0",
         "libgtk-3-0",
         "libnspr4",
@@ -152,6 +149,14 @@ ram.runtime = "500M"
         "fontforge",
         "rsync"
     ]
+    packages_from_raw_bash = """
+    if [[ $YNH_DEBIAN_VERSION == "bookworm" ]]; then
+        echo "gconf-service, libgconf-2-4, libgdk-pixbuf2.0-0";
+    elif [[ $YNH_DEBIAN_VERSION == "trixie" ]]; then
+        echo "libgdk-pixbuf-xlib-2.0-0";
+        # FIXME : gconf stuff don't seem to exist in Trixie anymore ?!
+    fi
+    """
 
     [resources.database]
     type = "postgresql"
