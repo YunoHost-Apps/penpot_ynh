@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.8.1~ynh3"
+version = "2.9.0~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -45,8 +45,8 @@ ram.runtime = "500M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/penpot/penpot/archive/refs/tags/2.8.1.tar.gz"
-    sha256 = "44dc716ccce8b196f52038ba29c1669e174b19f17146f0435a22cf6440a9720c"
+    url = "https://github.com/penpot/penpot/archive/refs/tags/2.9.0.tar.gz"
+    sha256 = "38d6e386ef9f6daab5a1dd91ddbacec8c5b19083881d45f31d0cd0df4253f511"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.sources.jdk]
@@ -72,8 +72,8 @@ ram.runtime = "500M"
     autoupdate.asset.arm64 = "babashka-.*-linux-aarch64-static\\.tar\\.gz$"
 
     [resources.sources.emsdk]
-    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.12.tar.gz"
-    sha256 = "d972bf0909718f155aeb5627429230471c94b2a8a3047ee696e2690ec73961cb"
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.13.tar.gz"
+    sha256 = "83b6443aa3c1af248a960e2ab29cf90954a84400a93a5ce595a6c3c602e865bf"
     autoupdate.upstream = "https://github.com/emscripten-core/emsdk"
     autoupdate.strategy = "latest_github_tag"
 
@@ -107,7 +107,6 @@ ram.runtime = "500M"
         "netpbm",
         "poppler-utils",
         "potrace",
-        "gconf-service",
         "libasound2",
         "libatk1.0-0",
         "libatk-bridge2.0-0",
@@ -118,8 +117,6 @@ ram.runtime = "500M"
         "libexpat1",
         "libfontconfig1",
         "libgcc1",
-        "libgconf-2-4",
-        "libgdk-pixbuf2.0-0",
         "libglib2.0-0",
         "libgtk-3-0",
         "libnspr4",
@@ -152,6 +149,14 @@ ram.runtime = "500M"
         "fontforge",
         "rsync"
     ]
+    packages_from_raw_bash = """
+    if [[ $YNH_DEBIAN_VERSION == "bookworm" ]]; then
+        echo "gconf-service, libgconf-2-4, libgdk-pixbuf2.0-0";
+    elif [[ $YNH_DEBIAN_VERSION == "trixie" ]]; then
+        echo "libgdk-pixbuf-xlib-2.0-0";
+        # FIXME : gconf stuff don't seem to exist in Trixie anymore ?!
+    fi
+    """
 
     [resources.database]
     type = "postgresql"
