@@ -21,7 +21,7 @@ ynh_app_setting_set_default  --app=$app --key=telemetry_enabled --value=false
 ynh_script_progression "Installing dependencies..."
 
 # Install Nodejs
-ynh_nodejs_install
+#REMOVEME? ynh_nodejs_install
 
 ynh_setup_source --dest_dir="$install_dir/jdk" --source_id="jdk"
 export JAVA_HOME=$install_dir/jdk

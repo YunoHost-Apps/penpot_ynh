@@ -19,7 +19,7 @@ userdoc = "https://help.penpot.app/user-guide/"
 code = "https://github.com/penpot/penpot"
 
 [integration]
-yunohost = ">= 11.2.18"
+yunohost = ">= 12.1.17"
 helpers_version = "2.1"
 architectures = ["amd64", "arm64"]
 multi_instance = true
@@ -160,3 +160,6 @@ ram.runtime = "500M"
 
     [resources.database]
     type = "postgresql"
+
+    [resources.nodejs]
+    version = "21"
