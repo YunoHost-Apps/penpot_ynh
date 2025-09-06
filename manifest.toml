@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.9.0~ynh1"
+version = "2.9.0~ynh2"
 
 maintainers = ["orhtej2"]
 
@@ -61,10 +61,10 @@ ram.runtime = "500M"
     autoupdate.asset.arm64 = "OpenJDK.*-jdk_aarch64_linux_hotspot_.*\\.tar\\.gz$"
 
     [resources.sources.babashka]
-    amd64.url = "https://github.com/babashka/babashka/releases/download/v1.12.207/babashka-1.12.207-linux-amd64-static.tar.gz"
-    amd64.sha256 = "78bd6f9ba967afd4cfc6eb34fca0d9d6fc521c5b5243f4b1ed13ae2e45e6fe4d"
-    arm64.url = "https://github.com/babashka/babashka/releases/download/v1.12.207/babashka-1.12.207-linux-aarch64-static.tar.gz"
-    arm64.sha256 = "db0ce3a3e120589bce4233387d01d87a9cfd1e099e753f02c14e066635a27f0f"
+    amd64.url = "https://github.com/babashka/babashka/releases/download/v1.12.208/babashka-1.12.208-linux-amd64-static.tar.gz"
+    amd64.sha256 = "424c0be8be3932ecf16151e115c126e386931cd2ac8706afd99599f03cdb7129"
+    arm64.url = "https://github.com/babashka/babashka/releases/download/v1.12.208/babashka-1.12.208-linux-aarch64-static.tar.gz"
+    arm64.sha256 = "ff623c0909b8ec7e7e3f6ed88846f1cfc9fe7404d6fdd88addaa4b611cfe9d99"
     in_subdir = false
     autoupdate.strategy = "latest_github_release"
     autoupdate.upstream = "https://github.com/babashka/babashka"
@@ -72,8 +72,8 @@ ram.runtime = "500M"
     autoupdate.asset.arm64 = "babashka-.*-linux-aarch64-static\\.tar\\.gz$"
 
     [resources.sources.emsdk]
-    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.13.tar.gz"
-    sha256 = "83b6443aa3c1af248a960e2ab29cf90954a84400a93a5ce595a6c3c602e865bf"
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.14.tar.gz"
+    sha256 = "24142f5506a99dab75b18ccecf2e3a23b4e243fa6fac1b6c20b2081bb4fbc8c5"
     autoupdate.upstream = "https://github.com/emscripten-core/emsdk"
     autoupdate.strategy = "latest_github_tag"
 
