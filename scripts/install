@@ -167,6 +167,7 @@ ynh_safe_rm $install_dir/.cache/yarn
 ynh_safe_rm $install_dir/.cache/node
 ynh_safe_rm $install_dir/.cargo
 ynh_safe_rm $install_dir/.rustup
+ynh_safe_rm $install_dir/emsdk
 ynh_safe_rm /tmp/emsdk_cache
 
 #=================================================
