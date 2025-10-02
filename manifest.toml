@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.9.0~ynh2"
+version = "2.10.0~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -45,8 +45,8 @@ ram.runtime = "500M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/penpot/penpot/archive/refs/tags/2.9.0.tar.gz"
-    sha256 = "38d6e386ef9f6daab5a1dd91ddbacec8c5b19083881d45f31d0cd0df4253f511"
+    url = "https://github.com/penpot/penpot/archive/refs/tags/2.10.0.tar.gz"
+    sha256 = "4511ae85befa7c416e71b8ac35f4b178bc2bf02f3de901c5af2e65ea2c9d301d"
     autoupdate.strategy = "latest_github_tag"
 
     [resources.sources.jdk]
@@ -72,8 +72,8 @@ ram.runtime = "500M"
     autoupdate.asset.arm64 = "babashka-.*-linux-aarch64-static\\.tar\\.gz$"
 
     [resources.sources.emsdk]
-    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.14.tar.gz"
-    sha256 = "24142f5506a99dab75b18ccecf2e3a23b4e243fa6fac1b6c20b2081bb4fbc8c5"
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.15.tar.gz"
+    sha256 = "35be7626493e3bd22860ee2177147f9bca3b6ff871edeab27c5b061a9ed9d23d"
     autoupdate.upstream = "https://github.com/emscripten-core/emsdk"
     autoupdate.strategy = "latest_github_tag"
 
@@ -162,4 +162,4 @@ ram.runtime = "500M"
     type = "postgresql"
 
     [resources.nodejs]
-    version = "21"
+    version = "22"
