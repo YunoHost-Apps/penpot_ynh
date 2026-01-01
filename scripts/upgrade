@@ -81,7 +81,7 @@ pushd $install_dir/build/frontend
     ynh_replace --match="%buildDate%" --replace="$build_date" --file="$install_dir/build/frontend/resources/public/index.html"
     ynh_replace --match="%buildDate%" --replace="$build_date" --file="$install_dir/build/frontend/resources/public/rasterizer.html"
 
-    ynh_replace --match="version=develop" --replace="version=$version" --file="$install_dir/build/frontend/resources/public/js/render_wasm.js"
+   # ynh_replace --match="version=develop" --replace="version=$version" --file="$install_dir/build/frontend/resources/public/js/render_wasm.js"
 popd
 
 ynh_safe_rm $install_dir/frontend
