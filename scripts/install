@@ -31,7 +31,7 @@ ynh_setup_source --dest_dir="$install_dir/jre" --source_id="jre"
 ynh_script_progression "Setting up source files..."
 
 ynh_setup_source --dest_dir="$install_dir/backend" --source_id="backend"
-ynh_setup_source --dest_dir="$install_dir/exporter" --source_id="exporter
+ynh_setup_source --dest_dir="$install_dir/exporter" --source_id="exporter"
 chown -R $app:$app "$install_dir"
 
 ynh_setup_source --dest_dir="$install_dir/frontend"
