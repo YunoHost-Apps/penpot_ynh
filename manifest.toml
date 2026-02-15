@@ -49,12 +49,14 @@ ram.runtime = "500M"
     sha256 = "561a8b60c0e33d7d89d79e45216b8f82fc3b5b24b5592d2219d777018ee867ad"
     autoupdate.strategy = "latest_github_tag"
     autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
+    prefetch = false
 
     [resources.sources.backend]
     url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.2-extracted/penpot-backend-extracted.tar.gz"
     sha256 = "db79e0b9b1159c7353fe49bc2ca4e76fd4a94f4717d45a1457326ad1ab101ed3"
     autoupdate.strategy = "latest_github_tag"
     autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
+    prefetch = false
 
     [resources.sources.exporter]
     amd64.url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.2-extracted/penpot-exporter-amd64-extracted.tar.gz"
@@ -65,6 +67,7 @@ ram.runtime = "500M"
     autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
     autoupdate.asset.amd64 = "penpot-exporter-amd64-extracted\\.tar\\.gz$"
     autoupdate.asset.arm64 = "penpot-exporter-arm64-extracted\\.tar\\.gz$"
+    prefetch = false
 
     [resources.sources.jre]
     amd64.url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%2B10/OpenJDK25U-jre_x64_linux_hotspot_25.0.2_10.tar.gz"
@@ -76,6 +79,7 @@ ram.runtime = "500M"
     autoupdate.upstream = "https://github.com/adoptium/temurin25-binaries"
     autoupdate.asset.amd64 = "OpenJDK.*-jre_x64_linux_hotspot_.*\\.tar\\.gz$"
     autoupdate.asset.arm64 = "OpenJDK.*-jre_aarch64_linux_hotspot_.*\\.tar\\.gz$"
+    prefetch = false
 
     [resources.system_user]
     allow_email = true
