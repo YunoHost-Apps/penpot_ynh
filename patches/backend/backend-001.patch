@@ -4,13 +4,13 @@ Date: Sun, 7 Sep 2025 00:44:11 +0200
 Subject: [PATCH] Don't use ImageMagick 7.x
 
 ---
- backend/scripts/run.template.sh | 2 +-
+ run.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/backend/scripts/run.template.sh b/backend/scripts/run.template.sh
+diff --git a/run.sh b/run.sh
 index 6124e44..16a8f77 100644
---- a/backend/scripts/run.template.sh
-+++ b/backend/scripts/run.template.sh
+--- a/run.sh
++++ b/run.sh
 @@ -18,7 +18,7 @@ if [ -f ./environ ]; then
      source ./environ
  fi
