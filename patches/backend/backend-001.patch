@@ -1,25 +1,13 @@
-From 76505c1146b9a2a05e8c52cb29a3ed297f37049d Mon Sep 17 00:00:00 2001
-From: orhtej2 <2871798+orhtej2@users.noreply.github.com>
-Date: Sun, 7 Sep 2025 00:44:11 +0200
-Subject: [PATCH] Don't use ImageMagick 7.x
-
----
- run.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
 diff --git a/run.sh b/run.sh
-index 6124e44..16a8f77 100644
+index 6124e44..16a8f77 100755
 --- a/run.sh
 +++ b/run.sh
 @@ -18,7 +18,7 @@ if [ -f ./environ ]; then
      source ./environ
  fi
- 
+
 -export JAVA_OPTS="-Dim4java.useV7=true -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager -Dlog4j2.configurationFile=log4j2.xml -XX:-OmitStackTraceInFastThrow --sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED --enable-preview $JVM_OPTS $JAVA_OPTS"
 +export JAVA_OPTS="-Dim4java.useV7=false -Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager -Dlog4j2.configurationFile=log4j2.xml -XX:-OmitStackTraceInFastThrow --sun-misc-unsafe-memory-access=allow --enable-native-access=ALL-UNNAMED --enable-preview $JVM_OPTS $JAVA_OPTS"
- 
+
  ENTRYPOINT=${1:-app.main};
- 
--- 
-2.47.3
 
