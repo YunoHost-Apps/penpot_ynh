@@ -51,7 +51,7 @@ ram.runtime = "500M"
     autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
 
     [resources.sources.backend]
-    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.2-extracted/penpot-backend-extracted.tar.gz  "
+    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.2-extracted/penpot-backend-extracted.tar.gz"
     sha256 = "db79e0b9b1159c7353fe49bc2ca4e76fd4a94f4717d45a1457326ad1ab101ed3"
     autoupdate.strategy = "latest_github_tag"
     autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
