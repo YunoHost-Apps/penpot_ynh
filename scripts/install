@@ -36,6 +36,7 @@ chown -R $app:$app "$install_dir"
 
 ynh_setup_source --dest_dir="$install_dir/frontend"
 chown -R $app:www-data "$install_dir/frontend"
+chgrp www-data $install_dir
 
 chmod -R o-rwx "$install_dir"
 

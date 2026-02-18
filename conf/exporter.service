@@ -9,7 +9,7 @@ User=__APP__
 Group=__APP__
 
 WorkingDirectory=__INSTALL_DIR__/exporter/exporter
-ExecStart=__NODEJS_DIR__/node --env-file=__INSTALL_DIR/.env.exporter app.js
+ExecStart=__NODEJS_DIR__/node --env-file=__INSTALL_DIR__/exporter/.env app.js
 Restart=always
 Environment=PATH=__PATH_WITH_NODEJS__
 StandardOutput=append:/var/log/__APP__/__APP__-exporter.log 
