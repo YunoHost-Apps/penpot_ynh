@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.12.1~ynh3"
+version = "2.13.3~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -45,26 +45,26 @@ ram.runtime = "500M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.2-extracted/penpot-frontend-extracted.tar.gz"
-    sha256 = "561a8b60c0e33d7d89d79e45216b8f82fc3b5b24b5592d2219d777018ee867ad"
+    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.3-extracted/penpot-frontend-extracted.tar.gz"
+    sha256 = "3d2ee4011070ea0ac25d15734bcd3c75dc2bbc2b6def41e8db37eab6e4eb3e16"
     autoupdate.strategy = "latest_github_release"
     autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
     autoupdate.asset = "penpot-frontend-extracted\\.tar\\.gz$"
     autoupdate.version_regex = "(\\d+\\.\\d+\\.\\d+)-extracted"
 
     [resources.sources.backend]
-    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.2-extracted/penpot-backend-extracted.tar.gz"
-    sha256 = "db79e0b9b1159c7353fe49bc2ca4e76fd4a94f4717d45a1457326ad1ab101ed3"
+    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.3-extracted/penpot-backend-extracted.tar.gz"
+    sha256 = "2cbccd4d1731f3ea368ea6c4cbd0a667ad5d2258dc40bd06d29b5176205e8927"
     autoupdate.strategy = "latest_github_release"
     autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
     autoupdate.asset = "penpot-backend-extracted\\.tar\\.gz$"
     autoupdate.version_regex = "(\\d+\\.\\d+\\.\\d+)-extracted"
 
     [resources.sources.exporter]
-    amd64.url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.2-extracted/penpot-exporter-amd64-extracted.tar.gz"
-    amd64.sha256 = "cdc872b9acf64634fbf075479fa1fd42640a1aaf1b7435c663568a87bd49d3f7"
-    arm64.url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.2-extracted/penpot-exporter-arm64-extracted.tar.gz"
-    arm64.sha256 = "457e0ee2b67bd1e4bea950f5e03ce752c8d0ef820fbf48dbfff44d2b6fec39bc"
+    amd64.url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.3-extracted/penpot-exporter-amd64-extracted.tar.gz"
+    amd64.sha256 = "0b84ca06a1147dc09a7aec7c9a737d9e4b851489a43aa9e83853ee42faf43163"
+    arm64.url = "https://github.com/orhtej2/penpot-binary/releases/download/2.13.3-extracted/penpot-exporter-arm64-extracted.tar.gz"
+    arm64.sha256 = "891b96078ab49c94f60bf681610db43c9b21b13b14f5af98f7af4aa714b04605"
     autoupdate.strategy = "latest_github_release"
     autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
     autoupdate.asset.amd64 = "penpot-exporter-amd64-extracted\\.tar\\.gz$"
@@ -78,7 +78,7 @@ ram.runtime = "500M"
     arm64.url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%2B10/OpenJDK25U-jre_aarch64_linux_hotspot_25.0.2_10.tar.gz"
     arm64.sha256 = "e90ad4a618a0228a2126e7c6abfbc0729e2649d7d72cef45fd640239866eb050"
     autoupdate.strategy = "latest_github_release"
-    autoupdate.version_regex = "jre-(\\d+\\.\\d+\\.\\d+)\\+(.*)"
+    autoupdate.version_regex = "jdk-(\\d+\\.\\d+\\.\\d+)\\+(.*)"
     autoupdate.upstream = "https://github.com/adoptium/temurin25-binaries"
     autoupdate.asset.amd64 = "OpenJDK.*-jre_x64_linux_hotspot_.*\\.tar\\.gz$"
     autoupdate.asset.arm64 = "OpenJDK.*-jre_aarch64_linux_hotspot_.*\\.tar\\.gz$"
