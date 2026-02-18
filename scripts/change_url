@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -17,12 +16,6 @@ ynh_systemctl --service=$app-exporter --action="stop"
 ynh_script_progression "Updating NGINX web server configuration..."
 
 ynh_config_change_url_nginx
-
-#=================================================
-# SPECIFIC MODIFICATIONS
-#=================================================
-# ...
-#=================================================
 
 #=================================================
 # START SYSTEMD SERVICE

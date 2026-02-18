@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -21,39 +20,7 @@ ynh_app_setting_set_default --key=telemetry_enabled --value=false
 #=================================================
 ynh_script_progression "Installing dependencies..."
 
-ynh_setup_source --dest_dir="$install_dir/jdk" --source_id="jdk"
-export JAVA_HOME=$install_dir/jdk
-
-ynh_setup_source --dest_dir="$install_dir/emsdk" --source_id="emsdk"
-
-ynh_setup_source --dest_dir="$install_dir/babashka" --source_id="babashka"
-
-chown -R $app:www-data "$install_dir"
-
-tmp_dir=$(mktemp -d)
-
-pushd $tmp_dir
-    curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
-    chmod +x linux-install.sh
-    ynh_hide_warnings ./linux-install.sh -p $install_dir/clojure
-popd
-
-ynh_safe_rm $tmp_dir
-
-ynh_hide_warnings ynh_exec_as_app RUSTUP_HOME="$install_dir"/.rustup CARGO_HOME="$install_dir"/.cargo bash -c 'curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -q -y'
-
-pushd $install_dir/emsdk
-  ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production ./emsdk install latest
-  ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production ./emsdk activate latest
-popd
-
-. $install_dir/emsdk/emsdk_env.sh
-export PATH=$install_dir/.cargo/bin:$JAVA_HOME/bin:$install_dir/clojure/bin:$install_dir/babashka:$nodejs_dir:$PATH
-
-ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production rustup target add wasm32-unknown-emscripten
-
-export TS=$(date +%s)
-export BUILD_DATE=$(date -R)
+ynh_setup_source --dest_dir="$install_dir/jre" --source_id="jre"
 
 #=================================================
 # APP "BUILD" (DEPLOYING SOURCES, VENV, COMPILING ETC)
@@ -62,113 +29,17 @@ export BUILD_DATE=$(date -R)
 #=================================================
 ynh_script_progression "Setting up source files..."
 
-ynh_setup_source --dest_dir="$install_dir/build"
+ynh_setup_source --dest_dir="$install_dir/backend" --source_id="backend"
+ynh_setup_source --dest_dir="$install_dir/exporter" --source_id="exporter"
+ynh_replace --match="\"--allow-insecure-localhost\"" --replace="\"--allow-insecure-localhost\", \"--disable-gpu\", \"--no-zygote\"" --file="$install_dir/exporter/exporter/app.js"
+ln -s "$install_dir/exporter/.cache" "$install_dir/"
+chown -R $app:$app "$install_dir"
 
-chown -R $app:www-data "$install_dir"
+ynh_setup_source --dest_dir="$install_dir/frontend"
+chown -R $app:www-data "$install_dir/frontend"
+chgrp www-data $install_dir
+
 chmod -R o-rwx "$install_dir"
-
-#=================================================
-# INSTALL APP
-#=================================================
-ynh_script_progression "Building frontend..."
-
-pushd $install_dir/build/frontend
-    corepack enable
-    ynh_hide_warnings npm install -g corepack@latest
-    ynh_hide_warnings corepack prepare --activate
-    ynh_hide_warnings ynh_exec_as_app NODE_ENV=production yarn install --immutable
-
-    ynh_hide_warnings ynh_exec_as_app JDK_JAVA_OPTIONS=-Xmx2G PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:app:main --config-merge "{:release-version \"${current_hash}-${TS}\"}"
-    ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:wasm
-    ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:app:libs
-    ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production yarn run build:app:assets
-
-    ynh_replace --match="%version%" --replace="$version" --file="$install_dir/build/frontend/resources/public/index.html"
-    ynh_replace --match="%version%" --replace="$version" --file="$install_dir/build/frontend/resources/public/render.html"
-    ynh_replace --match="%version%" --replace="$version" --file="$install_dir/build/frontend/resources/public/rasterizer.html"
-
-    ynh_replace --match="%buildDate%" --replace="$build_date" --file="$install_dir/build/frontend/resources/public/index.html"
-    ynh_replace --match="%buildDate%" --replace="$build_date" --file="$install_dir/build/frontend/resources/public/rasterizer.html"
-
-    #ynh_replace --match="version=develop" --replace="version=$version" --file="$install_dir/build/frontend/resources/public/js/worker/main*.js"
-popd
-
-mkdir -p $install_dir/frontend
-mv $install_dir/build/frontend/resources/public/* $install_dir/frontend
-# mv $install_dir/build/frontend/storybook-static $install_dir/frontend
-chown -R $app:www-data $install_dir/frontend
-chmod -R 750 $install_dir/frontend
-
-ynh_script_progression "Building backend..."
-
-pushd $install_dir/build/backend
-    mkdir -p target/classes;
-    mkdir -p target/dist;
-    echo "$version" > target/classes/version.txt;
-    cp ../CHANGES.md target/classes/changelog.md;
-    chown -R $app:$app target
-
-    ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME clojure -T:build jar;
-    mv target/penpot.jar target/dist/penpot.jar
-    cp resources/log4j2.xml target/dist/log4j2.xml
-    cp scripts/run.template.sh target/dist/run.sh
-    chmod +x target/dist/run.sh;
-
-    # Prefetch templates
-    mkdir builtin-templates;
-    bb ./scripts/prefetch-templates.clj resources/app/onboarding.edn builtin-templates/
-    cp -r builtin-templates target/dist/
-popd
-
-mkdir -p $install_dir/backend
-mv $install_dir/build/backend/target/dist/* $install_dir/backend
-chown -R $app:$app $install_dir/backend
-chmod -R 700 $install_dir/backend
-
-ynh_script_progression "Building exporter..."
-
-pushd $install_dir/build/exporter
-    ynh_hide_warnings ynh_exec_as_app corepack prepare --activate
-    ynh_hide_warnings ynh_exec_as_app yarn install --immutable
-    ynh_safe_rm "target"
-    ynh_hide_warnings ynh_exec_as_app PATH=$PATH JAVA_HOME=$JAVA_HOME NODE_ENV=production clojure -M:dev:shadow-cljs release main
-    cp yarn.lock target/
-    cp package.json target/
-
-    ynh_replace --match="%version%" --replace="$version" --file="$install_dir/build/exporter/target/app.js"
-popd
-
-mkdir -p $install_dir/exporter
-mv $install_dir/build/exporter/target/* $install_dir/exporter
-cp $install_dir/build/.yarnrc.yml $install_dir/exporter
-chown -R $app:$app $install_dir/exporter
-chmod -R 700 $install_dir/exporter
-
-ynh_safe_rm $install_dir/.cache
-
-pushd $install_dir/exporter
-    ynh_hide_warnings ynh_exec_as_app corepack prepare --activate
-    ynh_exec_as_app NODE_ENV=production yarn install --immutable
-    ynh_exec_as_app NODE_ENV=production yarn run playwright install chromium
-popd
-
-ynh_script_progression "Cleaning up..."
-
-ynh_safe_rm $install_dir/.npm
-ynh_safe_rm $install_dir/.yarn
-ynh_safe_rm $install_dir/build
-ynh_safe_rm $install_dir/.m2
-ynh_safe_rm $install_dir/.clojure
-ynh_safe_rm $install_dir/clojure
-ynh_safe_rm $install_dir/babashka
-ynh_safe_rm $install_dir/.cache/ms-playwright/firefox-*
-ynh_safe_rm $install_dir/.cache/ms-playwright/webkit-*
-ynh_safe_rm $install_dir/.cache/yarn
-ynh_safe_rm $install_dir/.cache/node
-ynh_safe_rm $install_dir/.cargo
-ynh_safe_rm $install_dir/.rustup
-ynh_safe_rm $install_dir/emsdk
-ynh_safe_rm /tmp/emsdk_cache
 
 #=================================================
 # SYSTEM CONFIGURATION
