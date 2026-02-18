@@ -24,7 +24,7 @@ helpers_version = "2.1"
 architectures = ["amd64", "arm64"]
 multi_instance = true
 
-ldap = false
+ldap = true
 
 sso = false
 
@@ -156,14 +156,6 @@ ram.runtime = "500M"
         "fontforge",
         "rsync"
     ]
-    packages_from_raw_bash = """
-    if [[ $YNH_DEBIAN_VERSION == "bookworm" ]]; then
-        echo "gconf-service, libgconf-2-4, libgdk-pixbuf2.0-0";
-    elif [[ $YNH_DEBIAN_VERSION == "trixie" ]]; then
-        echo "libgdk-pixbuf-xlib-2.0-0";
-        # FIXME : gconf stuff don't seem to exist in Trixie anymore ?!
-    fi
-    """
 
     [resources.database]
     type = "postgresql"
