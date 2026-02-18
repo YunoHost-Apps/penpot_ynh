@@ -32,6 +32,7 @@ ynh_script_progression "Setting up source files..."
 
 ynh_setup_source --dest_dir="$install_dir/backend" --source_id="backend"
 ynh_setup_source --dest_dir="$install_dir/exporter" --source_id="exporter"
+ynh_run_as_app ln -s "$install_dir/exporter/.cache" "$install_dir/"
 chown -R $app:$app "$install_dir"
 
 ynh_setup_source --dest_dir="$install_dir/frontend"
