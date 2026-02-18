@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -32,10 +31,13 @@ ynh_script_progression "Setting up source files..."
 
 ynh_setup_source --dest_dir="$install_dir/backend" --source_id="backend"
 ynh_setup_source --dest_dir="$install_dir/exporter" --source_id="exporter"
+ynh_replace --match="\"--allow-insecure-localhost\"" --replace="\"--allow-insecure-localhost\", \"--disable-gpu\", \"--no-zygote\"" --file="$install_dir/exporter/exporter/app.js"
+ln -s "$install_dir/exporter/.cache" "$install_dir/"
 chown -R $app:$app "$install_dir"
 
 ynh_setup_source --dest_dir="$install_dir/frontend"
 chown -R $app:www-data "$install_dir/frontend"
+chgrp www-data $install_dir
 
 chmod -R o-rwx "$install_dir"
 

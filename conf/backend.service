@@ -8,7 +8,7 @@ Type=simple
 User=__APP__
 Group=__APP__
 
-Environment=JAVA_HOME="__INSTALL_DIR__/jdk"
+Environment=JAVA_HOME="__INSTALL_DIR__/jre"
 
 WorkingDirectory=__INSTALL_DIR__/backend
 ExecStart=__INSTALL_DIR__/backend/run.sh
