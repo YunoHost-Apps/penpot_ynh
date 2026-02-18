@@ -26,8 +26,8 @@ ynh_setup_source --dest_dir="$install_dir/jre" --source_id="jre"
 #=================================================
 ynh_script_progression "Setting up source files..."
 
-ynh_setup_source --dest_dir="$install_dir/backend" --source_id="backend"
-ynh_setup_source --dest_dir="$install_dir/exporter" --source_id="exporter"
+ynh_setup_source --dest_dir="$install_dir/backend" --source_id="backend" --full_replace --keep="environ"
+ynh_setup_source --dest_dir="$install_dir/exporter" --source_id="exporter"  --full_replace --keep=".env"
 ynh_replace --match="\"--allow-insecure-localhost\"" --replace="\"--allow-insecure-localhost\", \"--disable-gpu\", \"--no-zygote\"" --file="$install_dir/exporter/exporter/app.js"
 if [ ! -L "$install_dir/.cache" ]; then
     ln -s "$install_dir/exporter/.cache" "$install_dir/"
@@ -35,7 +35,7 @@ fi
 
 chown -R $app:$app "$install_dir"
 
-ynh_setup_source --dest_dir="$install_dir/frontend"
+ynh_setup_source --dest_dir="$install_dir/frontend" --full_replace --keep="js/config.js"
 chown -R $app:www-data "$install_dir/frontend"
 chgrp www-data $install_dir
 
