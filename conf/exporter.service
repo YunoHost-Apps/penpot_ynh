@@ -12,6 +12,7 @@ WorkingDirectory=__INSTALL_DIR__/exporter/exporter
 ExecStart=__NODEJS_DIR__/node --env-file=__INSTALL_DIR__/exporter/.env app.js
 Restart=always
 Environment=PATH=__PATH_WITH_NODEJS__
+Environment=PLAYWRIGHT_BROWSERS_PATH=__INSTALL_DIR__/exporter/browsers
 StandardOutput=append:/var/log/__APP__/__APP__-exporter.log 
 StandardError=inherit
 Restart=on-failure
