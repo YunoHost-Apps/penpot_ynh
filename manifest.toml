@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.14.4~ynh1"
+version = "2.14.4~ynh2"
 
 maintainers = ["orhtej2"]
 
@@ -73,10 +73,10 @@ ram.runtime = "500M"
     prefetch = false
 
     [resources.sources.jre]
-    amd64.url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%2B10/OpenJDK25U-jre_x64_linux_hotspot_25.0.2_10.tar.gz"
-    amd64.sha256 = "d6c89e08f42be94cd55eab20190958a35b993625018a3ac59cb3d16d8445cf98"
-    arm64.url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%2B10/OpenJDK25U-jre_aarch64_linux_hotspot_25.0.2_10.tar.gz"
-    arm64.sha256 = "e90ad4a618a0228a2126e7c6abfbc0729e2649d7d72cef45fd640239866eb050"
+    amd64.url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jre_x64_linux_hotspot_25.0.3_9.tar.gz"
+    amd64.sha256 = "487ad434d8b121ae3902d5ad9cb830cd8e1f75fefad6e2ba80f89d60e3db95d7"
+    arm64.url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jre_aarch64_linux_hotspot_25.0.3_9.tar.gz"
+    arm64.sha256 = "d12d5b19ff7f6c4a99fd4f9eecede2c96e64df7d1f41cc84f2e9c9b38408600b"
     autoupdate.strategy = "latest_github_release"
     autoupdate.version_regex = "jdk-(\\d+\\.\\d+\\.\\d+)\\+(.*)"
     autoupdate.upstream = "https://github.com/adoptium/temurin25-binaries"
