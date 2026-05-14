@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.15.2~ynh1"
+version = "2.15.3~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -45,26 +45,26 @@ ram.runtime = "500M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.15.2-extracted/penpot-frontend-extracted.tar.gz"
-    sha256 = "c00acf520e368333a677a9d704dbe1ea4df1080be2b10caeead5cca4806fd257"
+    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.15.3-extracted/penpot-frontend-extracted.tar.gz"
+    sha256 = "3d7663ddaea21cb56442be27dce8d5c7eba528b0fba65477864757eb400f6492"
     autoupdate.strategy = "latest_github_release"
     autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
     autoupdate.asset = "penpot-frontend-extracted\\.tar\\.gz$"
     autoupdate.version_regex = "(\\d+\\.\\d+\\.\\d+)-extracted"
 
     [resources.sources.backend]
-    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.15.2-extracted/penpot-backend-extracted.tar.gz"
-    sha256 = "ee1a9d3feebbce4b0a56f02c9ac5db547d51e856faf84b71fbe26f5f3a35473b"
+    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.15.3-extracted/penpot-backend-extracted.tar.gz"
+    sha256 = "5be9864e222ca6fe315c9f531dd69ee98bd93f695fdd8659b8fac0a5a8bf489a"
     autoupdate.strategy = "latest_github_release"
     autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
     autoupdate.asset = "penpot-backend-extracted\\.tar\\.gz$"
     autoupdate.version_regex = "(\\d+\\.\\d+\\.\\d+)-extracted"
 
     [resources.sources.exporter]
-    amd64.url = "https://github.com/orhtej2/penpot-binary/releases/download/2.15.2-extracted/penpot-exporter-amd64-extracted.tar.gz"
-    amd64.sha256 = "93f7e843f1dc8b0af15a9439c1334de39b492927ec66dfdbfb1460e9be6f771d"
-    arm64.url = "https://github.com/orhtej2/penpot-binary/releases/download/2.15.2-extracted/penpot-exporter-arm64-extracted.tar.gz"
-    arm64.sha256 = "0f7fb3fbea69af3e68d1e02ad26f42a74affc6ade787b3d2db0eace8a11c6c77"
+    amd64.url = "https://github.com/orhtej2/penpot-binary/releases/download/2.15.3-extracted/penpot-exporter-amd64-extracted.tar.gz"
+    amd64.sha256 = "af7d9408249af85a01ae2e2e512e59185d293160ac5688fc40bb94fc33e9ef7e"
+    arm64.url = "https://github.com/orhtej2/penpot-binary/releases/download/2.15.3-extracted/penpot-exporter-arm64-extracted.tar.gz"
+    arm64.sha256 = "c2159278cbce91764683c7ea881aa4bd4bcc7a0fc5645e1591182750e67c1963"
     autoupdate.strategy = "latest_github_release"
     autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
     autoupdate.asset.amd64 = "penpot-exporter-amd64-extracted\\.tar\\.gz$"
