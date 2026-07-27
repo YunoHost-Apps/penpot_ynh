@@ -9,10 +9,9 @@ User=__APP__
 Group=__APP__
 
 Environment=JAVA_HOME="__INSTALL_DIR__/jre"
-Environment=PATH="__INSTALL_DIR__/imagemagick/bin:$PATH"
 
 WorkingDirectory=__INSTALL_DIR__/backend
-ExecStart=__INSTALL_DIR__/backend/run.sh
+ExecStart=/usr/bin/env bash -c "PATH=__INSTALL_DIR__/imagemagick/bin:$PATH run.sh
 StandardOutput=append:/var/log/__APP__/__APP__-backend.log
 StandardError=inherit
 Restart=on-failure
