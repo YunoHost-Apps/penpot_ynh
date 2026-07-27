@@ -84,6 +84,24 @@ ram.runtime = "500M"
     autoupdate.asset.arm64 = "OpenJDK.*-jre_aarch64_linux_hotspot_.*\\.tar\\.gz$"
     prefetch = false
 
+    [resources.sources.imagemagick]
+    amd64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-27/imagemagick-7.1.2-27-linux-amd64.tar.gz"
+    amd64.sha256 = "bf6ce7922712054dbd82063630f4a888cfdb3f40319fe7dde48b2ce71bd36d9e"
+    arm64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-27/imagemagick-7.1.2-27-linux-arm64.tar.gz"
+    arm64.sha256 = "8dd423bf1b18d3f30c895ac50c08bd644411c661847e8ec9a3208a0ef5b69d25"
+    autoupdate.strategy = "latest_github_release"
+    autoupdate.upstream = "https://github.com/adoptium/temurin25-binaries"
+    autoupdate.asset.amd64 = "imagemagick-\\d+\\.\\d+\\.\\d+-\\d+-linux-amd64\\.tar\\.gz$"
+    autoupdate.asset.arm64 = "imagemagick-\\d+\\.\\d+\\.\\d+-\\d+-linux-arm64\\.tar\\.gz$"
+    prefetch = false
+
+    [resources.sources.imagemagick-policy]
+    url = "https://raw.githubusercontent.com/penpot/penpot/034bab99c9abcbf5aadf7418ef40747925398ae3/docker/images/files/imagemagick-policy.xml"
+    sha256 = "f5d9a98218665d8afe11a6ed772be901e1c84ddcbba7c3a9c9e1d6a32b004012"
+    format = "whatever"
+    extract = false
+    rename = "policy.xml"
+    
     [resources.system_user]
     allow_email = true
 

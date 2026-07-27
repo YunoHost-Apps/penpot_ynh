@@ -39,6 +39,9 @@ ynh_setup_source --dest_dir="$install_dir/frontend" --full_replace --keep="js/co
 chown -R $app:www-data "$install_dir/frontend"
 chgrp www-data $install_dir
 
+ynh_setup_source --dest_dir="$install_dir/imagemagick" --source_id="imagemagick"
+ynh_setup_source --dest_dir="$install_dir/.config/ImageMagick" --source_id="imagemagick-policy"
+
 chmod -R o-rwx "$install_dir"
 
 #=================================================
