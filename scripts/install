@@ -33,6 +33,8 @@ ynh_setup_source --dest_dir="$install_dir/backend" --source_id="backend"
 ynh_setup_source --dest_dir="$install_dir/exporter" --source_id="exporter"
 ynh_replace --match="\"--allow-insecure-localhost\"" --replace="\"--allow-insecure-localhost\", \"--disable-gpu\", \"--no-zygote\"" --file="$install_dir/exporter/exporter/app.js"
 ln -s "$install_dir/exporter/.cache" "$install_dir/"
+ynh_setup_source --dest_dir="$install_dir/imagemagick" --source_id="imagemagick"
+ynh_setup_source --dest_dir="$install_dir/.config/ImageMagick" --source_id="imagemagick-policy"
 chown -R $app:$app "$install_dir"
 
 ynh_setup_source --dest_dir="$install_dir/frontend"
