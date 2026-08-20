@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.12.1~ynh1"
+version = "2.17.1~ynh1"
 
 maintainers = ["orhtej2"]
 
@@ -19,17 +19,16 @@ userdoc = "https://help.penpot.app/user-guide/"
 code = "https://github.com/penpot/penpot"
 
 [integration]
-yunohost = ">= 12.1.38"
+yunohost = ">= 12.1.40"
 helpers_version = "2.1"
 architectures = ["amd64", "arm64"]
-multi_instance = true
+multi_instance = false
 
-ldap = false
-
+ldap = true
 sso = false
 
 disk = "500M"
-ram.build = "1500M"
+ram.build = "500M"
 ram.runtime = "500M"
 
 [install]
@@ -45,38 +44,60 @@ ram.runtime = "500M"
     [resources.sources]
 
     [resources.sources.main]
-    url = "https://github.com/penpot/penpot/archive/refs/tags/2.12.1.tar.gz"
-    sha256 = "9a5a5f548ae804a5ce5c57d348546c4724865a7ffc959be88889d8c70702f681"
-    autoupdate.strategy = "latest_github_tag"
+    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.17.1-extracted/penpot-frontend-extracted.tar.gz"
+    sha256 = "eae20dfec91b0aefd9cd878d4617ed88ccc8b8d60bd1e7acdea183dfbde3de0b"
+    autoupdate.strategy = "latest_github_release"
+    autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
+    autoupdate.asset = "penpot-frontend-extracted\\.tar\\.gz$"
+    autoupdate.version_regex = "(\\d+\\.\\d+\\.\\d+)-extracted"
 
-    [resources.sources.jdk]
-    amd64.url = "https://github.com/adoptium/temurin24-binaries/releases/download/jdk-24.0.2%2B12/OpenJDK24U-jdk_x64_linux_hotspot_24.0.2_12.tar.gz"
-    amd64.sha256 = "aea1cc55e51cf651c85f2f00ad021603fe269c4bb6493fa97a321ad770c9b096"
-    arm64.url = "https://github.com/adoptium/temurin24-binaries/releases/download/jdk-24.0.2%2B12/OpenJDK24U-jdk_aarch64_linux_hotspot_24.0.2_12.tar.gz"
-    arm64.sha256 = "6f8725d186d05c627176db9c46c732a6ef3ba41d9e9b3775c4727fc8ac642bb2"
+    [resources.sources.backend]
+    url = "https://github.com/orhtej2/penpot-binary/releases/download/2.17.1-extracted/penpot-backend-extracted.tar.gz"
+    sha256 = "2f86996dcf35ad9b12774b116b2587f8138c8c281b2221c0b0e95453df3388e6"
+    autoupdate.strategy = "latest_github_release"
+    autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
+    autoupdate.asset = "penpot-backend-extracted\\.tar\\.gz$"
+    autoupdate.version_regex = "(\\d+\\.\\d+\\.\\d+)-extracted"
+
+    [resources.sources.exporter]
+    amd64.url = "https://github.com/orhtej2/penpot-binary/releases/download/2.17.1-extracted/penpot-exporter-amd64-extracted.tar.gz"
+    amd64.sha256 = "8c6c2901856f38d81a2dea5472100acfbe9e5229884ad344716f119065cc7424"
+    arm64.url = "https://github.com/orhtej2/penpot-binary/releases/download/2.17.1-extracted/penpot-exporter-arm64-extracted.tar.gz"
+    arm64.sha256 = "2ad6ec78c4d45d7772784c874ecec05c80440ce4f3d6f9ab2f0ebe4e347a4fcb"
+    autoupdate.strategy = "latest_github_release"
+    autoupdate.upstream = "https://github.com/orhtej2/penpot-binary"
+    autoupdate.asset.amd64 = "penpot-exporter-amd64-extracted\\.tar\\.gz$"
+    autoupdate.asset.arm64 = "penpot-exporter-arm64-extracted\\.tar\\.gz$"
+    autoupdate.version_regex = "(\\d+\\.\\d+\\.\\d+)-extracted"
+
+    [resources.sources.jre]
+    amd64.url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4%2B7/OpenJDK25U-jre_x64_linux_hotspot_25.0.4_7.tar.gz"
+    amd64.sha256 = "aed3915f8facc0c80733ab2448bb0df4b494a36a2c5759e9a6e1eb979720f2b3"
+    arm64.url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4%2B7/OpenJDK25U-jre_aarch64_linux_hotspot_25.0.4_7.tar.gz"
+    arm64.sha256 = "1f2644427000316bc431df3389504551ed7464fe8486bf6b4f1130af9ffc8f55"
     autoupdate.strategy = "latest_github_release"
     autoupdate.version_regex = "jdk-(\\d+\\.\\d+\\.\\d+)\\+(.*)"
-    autoupdate.upstream = "https://github.com/adoptium/temurin24-binaries"
-    autoupdate.asset.amd64 = "OpenJDK.*-jdk_x64_linux_hotspot_.*\\.tar\\.gz$"
-    autoupdate.asset.arm64 = "OpenJDK.*-jdk_aarch64_linux_hotspot_.*\\.tar\\.gz$"
+    autoupdate.upstream = "https://github.com/adoptium/temurin25-binaries"
+    autoupdate.asset.amd64 = "OpenJDK.*-jre_x64_linux_hotspot_.*\\.tar\\.gz$"
+    autoupdate.asset.arm64 = "OpenJDK.*-jre_aarch64_linux_hotspot_.*\\.tar\\.gz$"
 
-    [resources.sources.babashka]
-    amd64.url = "https://github.com/babashka/babashka/releases/download/v1.12.213/babashka-1.12.213-linux-amd64-static.tar.gz"
-    amd64.sha256 = "c99ea14cdc402207eb86683d6125667e69fccf2e3644de4fdda7a91f65482057"
-    arm64.url = "https://github.com/babashka/babashka/releases/download/v1.12.213/babashka-1.12.213-linux-aarch64-static.tar.gz"
-    arm64.sha256 = "b0859fe416240549112c2c160275f2e28d078180261002588a03a1025d2652ea"
-    in_subdir = false
+    [resources.sources.imagemagick]
+    amd64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-29/imagemagick-7.1.2-29-linux-amd64.tar.gz"
+    amd64.sha256 = "cf194bc652c5555e4c6a45e06c262db56dde3032024b4ec3d65263668d090e66"
+    arm64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-29/imagemagick-7.1.2-29-linux-arm64.tar.gz"
+    arm64.sha256 = "5ee02707fad2e764013603abc257aae411ea320bb72ec8b8cb4598b5ed2d924f"
     autoupdate.strategy = "latest_github_release"
-    autoupdate.upstream = "https://github.com/babashka/babashka"
-    autoupdate.asset.amd64 = "babashka-.*-linux-amd64-static\\.tar\\.gz$"
-    autoupdate.asset.arm64 = "babashka-.*-linux-aarch64-static\\.tar\\.gz$"
+    autoupdate.upstream = "https://github.com/orhtej2/imagemagick-binary"
+    autoupdate.asset.amd64 = "imagemagick-\\d+\\.\\d+\\.\\d+-\\d+-linux-amd64\\.tar\\.gz$"
+    autoupdate.asset.arm64 = "imagemagick-\\d+\\.\\d+\\.\\d+-\\d+-linux-arm64\\.tar\\.gz$"
 
-    [resources.sources.emsdk]
-    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/4.0.22.tar.gz"
-    sha256 = "8f5e26de5c103c41ae04411e1be1ffc17983fb368343b15102a1859b3aa64626"
-    autoupdate.upstream = "https://github.com/emscripten-core/emsdk"
-    autoupdate.strategy = "latest_github_tag"
-
+    [resources.sources.imagemagick-policy]
+    url = "https://raw.githubusercontent.com/penpot/penpot/034bab99c9abcbf5aadf7418ef40747925398ae3/docker/images/files/imagemagick-policy.xml"
+    sha256 = "f5d9a98218665d8afe11a6ed772be901e1c84ddcbba7c3a9c9e1d6a32b004012"
+    format = "whatever"
+    extract = false
+    rename = "policy.xml"
+    
     [resources.system_user]
     allow_email = true
 
@@ -149,17 +170,9 @@ ram.runtime = "500M"
         "fontforge",
         "rsync"
     ]
-    packages_from_raw_bash = """
-    if [[ $YNH_DEBIAN_VERSION == "bookworm" ]]; then
-        echo "gconf-service, libgconf-2-4, libgdk-pixbuf2.0-0";
-    elif [[ $YNH_DEBIAN_VERSION == "trixie" ]]; then
-        echo "libgdk-pixbuf-xlib-2.0-0";
-        # FIXME : gconf stuff don't seem to exist in Trixie anymore ?!
-    fi
-    """
 
     [resources.database]
     type = "postgresql"
 
     [resources.nodejs]
-    version = "22"
+    version = "24"
