@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.17.2~ynh1"
+version = "2.17.2~ynh2"
 
 maintainers = ["orhtej2"]
 
@@ -71,21 +71,21 @@ ram.runtime = "500M"
     autoupdate.version_regex = "(\\d+\\.\\d+\\.\\d+)-extracted"
 
     [resources.sources.jre]
-    amd64.url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4%2B7/OpenJDK25U-jre_x64_linux_hotspot_25.0.4_7.tar.gz"
-    amd64.sha256 = "aed3915f8facc0c80733ab2448bb0df4b494a36a2c5759e9a6e1eb979720f2b3"
-    arm64.url = "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.4%2B7/OpenJDK25U-jre_aarch64_linux_hotspot_25.0.4_7.tar.gz"
-    arm64.sha256 = "1f2644427000316bc431df3389504551ed7464fe8486bf6b4f1130af9ffc8f55"
+    amd64.url = "https://github.com/adoptium/temurin26-binaries/releases/download/jdk-26.0.2%2B10/OpenJDK26U-jre_x64_linux_hotspot_26.0.2_10.tar.gz"
+    amd64.sha256 = "585c4cce5807ce5677289a123680a8648c84c9afac66727a0e3027298d8e32c7"
+    arm64.url = "https://github.com/adoptium/temurin26-binaries/releases/download/jdk-26.0.2%2B10/OpenJDK26U-jre_aarch64_linux_hotspot_26.0.2_10.tar.gz"
+    arm64.sha256 = "3c689572d2ea7aa3e19db5e5bc4ee41e90b557593d15eefcec179a9b8abfff0e"
     autoupdate.strategy = "latest_github_release"
     autoupdate.version_regex = "jdk-(\\d+\\.\\d+\\.\\d+)\\+(.*)"
-    autoupdate.upstream = "https://github.com/adoptium/temurin25-binaries"
+    autoupdate.upstream = "https://github.com/adoptium/temurin26-binaries"
     autoupdate.asset.amd64 = "OpenJDK.*-jre_x64_linux_hotspot_.*\\.tar\\.gz$"
     autoupdate.asset.arm64 = "OpenJDK.*-jre_aarch64_linux_hotspot_.*\\.tar\\.gz$"
 
     [resources.sources.imagemagick]
-    amd64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-30/imagemagick-7.1.2-30-linux-amd64.tar.gz"
-    amd64.sha256 = "ed1a7b8427b60471967631d1b0c396fd1c22f10d8d377221f75eacbc3810bdb1"
-    arm64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-30/imagemagick-7.1.2-30-linux-arm64.tar.gz"
-    arm64.sha256 = "b7fb04b7e122832c3eea470f504af7ad8d35e1f50a0c55d985886c5e87f20964"
+    amd64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-31/imagemagick-7.1.2-31-linux-amd64.tar.gz"
+    amd64.sha256 = "65b05c82fad55c4542d873bff5ff02fa873d5f192805f2050d3cd925d3268603"
+    arm64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-31/imagemagick-7.1.2-31-linux-arm64.tar.gz"
+    arm64.sha256 = "905de21cd7857f5903de7290393a6ade68fce133f4596faa13dd3f5e0927b21b"
     autoupdate.strategy = "latest_github_release"
     autoupdate.upstream = "https://github.com/orhtej2/imagemagick-binary"
     autoupdate.asset.amd64 = "imagemagick-\\d+\\.\\d+\\.\\d+-\\d+-linux-amd64\\.tar\\.gz$"
