@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.18.3~ynh1"
+version = "2.18.3~ynh2"
 
 maintainers = ["orhtej2"]
 
@@ -82,10 +82,10 @@ ram.runtime = "500M"
     autoupdate.asset.arm64 = "OpenJDK.*-jre_aarch64_linux_hotspot_.*\\.tar\\.gz$"
 
     [resources.sources.imagemagick]
-    amd64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-32/imagemagick-7.1.2-32-linux-amd64.tar.gz"
-    amd64.sha256 = "0cca42d0d5bf6dee0f99406160c6d19c99ecdeb9b11ef75c119ca4842f9ae132"
-    arm64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-32/imagemagick-7.1.2-32-linux-arm64.tar.gz"
-    arm64.sha256 = "22cdc036f8fc5f65b12521b01add62664d5305550fe2b521917ac08b085d81a3"
+    amd64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-33/imagemagick-7.1.2-33-linux-amd64.tar.gz"
+    amd64.sha256 = "f8ed1bf1984d9d39855b56bb290476ab1c6f03bd313d88c3d397ce0a2b133f06"
+    arm64.url = "https://github.com/orhtej2/imagemagick-binary/releases/download/7.1.2-33/imagemagick-7.1.2-33-linux-arm64.tar.gz"
+    arm64.sha256 = "217f1d00379a52b3cb5ab3691443e037670be3341849434e08cfcbe44c816387"
     autoupdate.strategy = "latest_github_release"
     autoupdate.upstream = "https://github.com/orhtej2/imagemagick-binary"
     autoupdate.asset.amd64 = "imagemagick-\\d+\\.\\d+\\.\\d+-\\d+-linux-amd64\\.tar\\.gz$"
