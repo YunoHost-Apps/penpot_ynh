@@ -1,4 +1,4 @@
-export PENPOT_FLAGS="enable-login-with-ldap enable-smtp"
+export PENPOT_FLAGS="enable-login-with-ldap enable-smtp disable-admin-console"
 export PENPOT_LDAP_HOST=localhost
 export PENPOT_LDAP_PORT=389
 export PENPOT_LDAP_SSL=false
