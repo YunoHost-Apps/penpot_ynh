@@ -1,2 +1,2 @@
 // Frontend configuration
-var penpotFlags = "disable-registration enable-login-with-ldap";
+var penpotFlags = "disable-registration enable-login-with-ldap disable-admin-console";
