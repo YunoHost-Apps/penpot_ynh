@@ -7,7 +7,7 @@ name = "Penpot"
 description.en = "Design and prototyping platform"
 description.fr = "Plateforme de conception et de prototypage"
 
-version = "2.19.2~ynh1"
+version = "2.19.2~ynh2"
 
 maintainers = ["orhtej2"]
 
@@ -71,12 +71,12 @@ ram.runtime = "500M"
     autoupdate.version_regex = "(\\d+\\.\\d+\\.\\d+)-extracted"
 
     [resources.sources.jre]
-    amd64.url = "https://github.com/adoptium/temurin26-binaries/releases/download/jdk-26.0.2%2B10/OpenJDK26U-jre_x64_linux_hotspot_26.0.2_10.tar.gz"
-    amd64.sha256 = "585c4cce5807ce5677289a123680a8648c84c9afac66727a0e3027298d8e32c7"
-    arm64.url = "https://github.com/adoptium/temurin26-binaries/releases/download/jdk-26.0.2%2B10/OpenJDK26U-jre_aarch64_linux_hotspot_26.0.2_10.tar.gz"
-    arm64.sha256 = "3c689572d2ea7aa3e19db5e5bc4ee41e90b557593d15eefcec179a9b8abfff0e"
+    amd64.url = "https://github.com/adoptium/temurin26-binaries/releases/download/jdk-26.0.2.1%2B1/OpenJDK26U-jre_x64_linux_hotspot_26.0.2.1_1.tar.gz"
+    amd64.sha256 = "35773116829554fb38e6acf9b92b3ba8bb7856557c3ab885e26e7d61e8c8e1b0"
+    arm64.url = "https://github.com/adoptium/temurin26-binaries/releases/download/jdk-26.0.2.1%2B1/OpenJDK26U-jre_aarch64_linux_hotspot_26.0.2.1_1.tar.gz"
+    arm64.sha256 = "9e1527681ae4a615044c88435d2c1a9faf1fd5c7baaf9514a4a4207608150087"
     autoupdate.strategy = "latest_github_release"
-    autoupdate.version_regex = "jdk-(\\d+\\.\\d+\\.\\d+)\\+(.*)"
+    autoupdate.version_regex = "jdk-(?P<main>\\d+\\.\\d+\\.\\d+(\\.(\\d+)?))\\+(?P<plus>.*)"
     autoupdate.upstream = "https://github.com/adoptium/temurin26-binaries"
     autoupdate.asset.amd64 = "OpenJDK.*-jre_x64_linux_hotspot_.*\\.tar\\.gz$"
     autoupdate.asset.arm64 = "OpenJDK.*-jre_aarch64_linux_hotspot_.*\\.tar\\.gz$"
