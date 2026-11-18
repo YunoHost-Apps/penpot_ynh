@@ -29,3 +29,6 @@ export PENPOT_HTTP_SERVER_PORT=__PORT__
 export PENPOT_HTTP_SERVER_HOST=127.0.0.1
 export PENPOT_TELEMETRY_ENABLED=__TELEMETRY_ENABLED__
 export PENPOT_TELEMETRY_REFERER=yunohost
+
+# temporary workaround agains Java2Shell
+export JVM_OPTS=-XX:-UseBASE64Intrinsics
